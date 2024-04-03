@@ -27,7 +27,6 @@ function createWindow() {
 
   // Vite dev server URL
   mainWindow.loadURL('http://localhost:5173');
-  mainWindow.webContents.openDevTools();
   mainWindow.on('closed', () => mainWindow = null);
 }
 
