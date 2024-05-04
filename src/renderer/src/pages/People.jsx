@@ -9,6 +9,7 @@ import { setToast } from '../store/reducers/toast';
 import PeopleGallery from '../components/PeopleGallery';
 
 import { useNavigate } from 'react-router-dom';
+import { SUCCESS_MESSAGES, ERROR_MESSAGES } from '../utils/constants';
 
 const People = () => {
   const navigate = useNavigate();
@@ -29,14 +30,14 @@ const People = () => {
       dispatch(setFaces({ faces: data }));
       dispatch(
         setToast({
-          toast: { open: true, message: 'Profiles fetched successfully', severity: 'success' }
+          toast: { open: true, message: SUCCESS_MESSAGES.ALL_PROFILES, severity: 'success' }
         })
       );
     } catch (exception) {
       setError(exception);
       dispatch(
         setToast({
-          toast: { open: true, message: 'Error while fetching profiles', severity: 'error' }
+          toast: { open: true, message: ERROR_MESSAGES.ALL_PROFILES, severity: 'error' }
         })
       );
     } finally {  

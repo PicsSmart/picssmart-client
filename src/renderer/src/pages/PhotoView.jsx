@@ -28,6 +28,8 @@ import { similaritySearchById } from '../services/apiService/utilities';
 
 import ImageGallery from '../components/ImageGallery';
 
+import { SUCCESS_MESSAGES, ERROR_MESSAGES } from '../utils/constants';
+
 const PhotoView = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -62,7 +64,7 @@ const PhotoView = () => {
       setError(exception);
       dispatch(
         setToast({
-          toast: { open: true, message: 'Error while fetching photo details', severity: 'error' }
+          toast: { open: true, message: ERROR_MESSAGES.PHOTO_DETAILS, severity: 'error' }
         })
       );
     } finally {
@@ -84,7 +86,7 @@ const PhotoView = () => {
       setError(exception);
       dispatch(
         setToast({
-          toast: { open: true, message: 'Error while fetching similar photos', severity: 'error' }
+          toast: { open: true, message: ERROR_MESSAGES.SIMILAR_PHOTOS, severity: 'error' }
         })
       );
     } finally {
@@ -112,14 +114,14 @@ const PhotoView = () => {
       console.log(response.data);
       dispatch(
         setToast({
-          toast: { open: true, message: 'Caption updated successfully', severity: 'success' }
+          toast: { open: true, message: SUCCESS_MESSAGES.CAPTION_UPDATED, severity: 'success' }
         })
       );
     } catch (exception) {
       setError(exception);
       dispatch(
         setToast({
-          toast: { open: true, message: 'Error while updating the caption', severity: 'error' }
+          toast: { open: true, message: ERROR_MESSAGES.CAPTION_UPDATED, severity: 'error' }
         })
       );
     } finally {
@@ -161,7 +163,7 @@ const PhotoView = () => {
       getSimilarPhotos().then(() => {
         dispatch(
           setToast({
-            toast: { open: true, message: 'Photo details fetched successfully', severity: 'success' }
+            toast: { open: true, message: SUCCESS_MESSAGES.PHOTO_DETAILS, severity: 'success' }
           })
         );
       });

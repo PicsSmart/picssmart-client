@@ -10,6 +10,8 @@ import { getAlbumsApi } from '../services/apiService/albums';
 
 import ItemsTable from '../components/ItemsTable';
 
+import { SUCCESS_MESSAGES, ERROR_MESSAGES } from '../utils/constants';
+
 const Albums = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -25,14 +27,14 @@ const Albums = () => {
       dispatch(setAlbums({ albums: data }));
       dispatch(
         setToast({
-          toast: { open: true, message: 'Albums fetched successfully', severity: 'success' }
+          toast: { open: true, message: SUCCESS_MESSAGES.ALBUMS, severity: 'success' }
         })
       );
     } catch (exception) {
       setError(execption);
       dispatch(
         setToast({
-          toast: { open: true, message: 'Error while fetching albums', severity: 'error' }
+          toast: { open: true, message: ERROR_MESSAGES.ALBUMS, severity: 'error' }
         })
       );
     } finally {

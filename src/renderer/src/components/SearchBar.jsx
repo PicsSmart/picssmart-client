@@ -7,6 +7,7 @@ import { textSearchApi } from '../services/apiService/utilities';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setToast } from '../store/reducers/toast';
+import { SUCCESS_MESSAGES, ERROR_MESSAGES } from '../utils/constants';
 // ==============================|| HEADER CONTENT - SEARCH ||============================== //
 
 const SearchBar = ({setPhotos, setError, setLoading}) => {
@@ -21,14 +22,14 @@ const SearchBar = ({setPhotos, setError, setLoading}) => {
             });
             dispatch(
                 setToast({
-                    toast: { open: true, message: 'Search results fetched successfully', severity: 'success' }
+                    toast: { open: true, message: SUCCESS_MESSAGES.SEARCH_RESULTS, severity: 'success' }
                 })
             );
         }catch(exception){
             setError(exception)
             dispatch(
                 setToast({
-                    toast: { open: true, message: 'Error while fetching the search results', severity: 'error' }
+                    toast: { open: true, message: ERROR_MESSAGES.SEARCH_RESULTS, severity: 'error' }
                 })
             );
         }finally{
@@ -45,7 +46,7 @@ const SearchBar = ({setPhotos, setError, setLoading}) => {
         if(caption === ''){
             dispatch(
                 setToast({
-                    toast: { open: true, message: 'Please enter text to search', severity: 'error' }
+                    toast: { open: true, message: ERROR_MESSAGES.ENTER_TEXT_TO_SEARCH, severity: 'warning' }
                 })
             );
             return

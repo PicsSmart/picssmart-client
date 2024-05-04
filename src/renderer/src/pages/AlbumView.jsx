@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { getAlbumMediaApi } from '../services/apiService/albums';
 import { useDispatch } from 'react-redux';
 import { setToast } from '../store/reducers/toast';
+import { SUCCESS_MESSAGES, ERROR_MESSAGES } from '../utils/constants';
 
 const AlbumView = () => {
   const [images, setImages] = useState()
@@ -27,14 +28,14 @@ const AlbumView = () => {
       setImages(data)
       dispatch(
         setToast({
-          toast:{ open:true, message:'Album media fetched successfully', severity:'success' }
+          toast:{ open:true, message: SUCCESS_MESSAGES.ALBUM_MEDIA, severity:'success' }
         })
       );
     }catch(exception){
       setError(exception)
       dispatch(
         setToast({
-          toast:{ open:true, message:'Error while fetching album media', severity:'error' }
+          toast:{ open:true, message:ERROR_MESSAGES.ALBUM_MEDIA, severity:'error' }
         })
       );
     }

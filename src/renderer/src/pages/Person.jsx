@@ -7,6 +7,7 @@ import { getFaceGroupImagesApi, getFacesApi } from '../services/apiService/peopl
 import ImageGallery from '../components/ImageGallery';
 import { setToast } from '../store/reducers/toast';
 import { useDispatch } from 'react-redux';
+import { SUCCESS_MESSAGES, ERROR_MESSAGES } from '../utils/constants';
 
 const Person = () => {
   const { id } = useParams();
@@ -32,14 +33,14 @@ const Person = () => {
       });
       dispatch(
         setToast({
-          toast: { open: true, message: 'Profile fetched successfully', severity: 'success' }
+          toast: { open: true, message: SUCCESS_MESSAGES.PROFILE, severity: 'success' }
         })
       );
     } catch (exception) {
       setError(exception);
       dispatch(
         setToast({
-          toast: { open: true, message: 'Error while fetching the profile', severity: 'error' }
+          toast: { open: true, message: ERROR_MESSAGES.PROFILE, severity: 'error' }
         })
       );
     } finally{

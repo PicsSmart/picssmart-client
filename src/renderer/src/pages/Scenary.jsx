@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import ImageGallery from '../components/ImageGallery';
 import { getSceneImagesApi } from '../services/apiService/scenary';
 import { setToast } from '../store/reducers/toast';
+import { SUCCESS_MESSAGES, ERROR_MESSAGES } from '../utils/constants';
 
 const Scenary = () => {
   const { name } = useParams();
@@ -24,14 +25,14 @@ const Scenary = () => {
       });
       dispatch(
         setToast({
-          toast: { open: true, message: 'Scene photos fetched successfully', severity: 'success' }
+          toast: { open: true, message: SUCCESS_MESSAGES.SCENE_PHOTOS, severity: 'success' }
         })
       );
     } catch (exception) {
       setError(exception);
       dispatch(
         setToast({
-          toast: { open: true, message: 'Error while fetching the scene photos', severity: 'error' }
+          toast: { open: true, message: ERROR_MESSAGES.SCENE_PHOTOS, severity: 'error' }
         })
       );
     } finally{

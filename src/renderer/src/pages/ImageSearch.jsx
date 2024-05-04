@@ -7,6 +7,7 @@ import ImageGallery from '../components/ImageGallery';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useDispatch } from 'react-redux';
 import { setToast } from '../store/reducers/toast';
+import { SUCCESS_MESSAGES, ERROR_MESSAGES } from '../utils/constants';
 
 const ImageSearch = () => {
 
@@ -26,14 +27,14 @@ const ImageSearch = () => {
             });
             dispatch(
                 setToast({
-                    toast: { open: true, message: 'Seacrh results fetched successfully', severity: 'success' }
+                    toast: { open: true, message: SUCCESS_MESSAGES.SEARCH_RESULTS, severity: 'success' }
                 })
             );
         } catch (exception) {
             setError(exception)
             dispatch(
                 setToast({
-                    toast: { open: true, message: 'Error while fetching search results', severity: 'error' }
+                    toast: { open: true, message: ERROR_MESSAGES.SEARCH_RESULTS, severity: 'error' }
                 })
             );
         } finally{
@@ -62,7 +63,7 @@ const ImageSearch = () => {
         if ( typeof acceptedFiles[0] === 'undefined' ){
             dispatch(
                 setToast({
-                    toast: { open: true, message: 'Please upload an image to search', severity: 'error' }
+                    toast: { open: true, message: ERROR_MESSAGES.UPLOAD_IMAGE_FOR_SEARCH, severity: 'warning' }
                 })
             );
             return

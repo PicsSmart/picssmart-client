@@ -5,6 +5,7 @@ import useApi from '../services/hooks/useApi';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { setToast } from '../store/reducers/toast';
+import { SUCCESS_MESSAGES, ERROR_MESSAGES } from '../utils/constants';
 
 const FileMountComponent = () => {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ const FileMountComponent = () => {
       // console.log('No folder selected');
       dispatch(
         setToast({
-          toast: { open: true, message: 'No folder selected', severity: 'error' },
+          toast: { open: true, message: ERROR_MESSAGES.SELECT_FOLDER, severity: 'warning' },
         })
       );
       return;
@@ -29,7 +30,7 @@ const FileMountComponent = () => {
       // console.log(res.data);
       dispatch(
         setToast({
-          toast: { open: true, message: 'Folder mounted. Processing images... This may take a while.', severity: 'info' },
+          toast: { open: true, message: SUCCESS_MESSAGES.FOLDER_MOUNT_START, severity: 'info' },
         })
       );
     }
@@ -37,7 +38,7 @@ const FileMountComponent = () => {
       // console.log(error);
       dispatch(
         setToast({
-          toast: { open: true, message: 'Error while mounting folder', severity: 'error' },
+          toast: { open: true, message: ERROR_MESSAGES.FOLDER_MOUNT_START, severity: 'error' },
         })
       );
     });

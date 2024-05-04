@@ -8,6 +8,8 @@ import { getMediaApi } from '../services/apiService/media';
 
 import ImageGallery from '../components/ImageGallery';
 
+import {SUCCESS_MESSAGES, ERROR_MESSAGES} from '../utils/constants';
+
 const Home = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -27,7 +29,7 @@ const Home = () => {
       );
       dispatch(
         setToast({
-          toast: { open: true, message: 'Media fetched successfully', severity: 'success' }
+          toast: { open: true, message: SUCCESS_MESSAGES.MEDIA, severity: 'success' }
         })
       );
     } catch (exception) {
@@ -35,7 +37,7 @@ const Home = () => {
       setError(exception);
       dispatch(
         setToast({
-          toast: { open: true, message: 'Error while fetching media', severity: 'error' }
+          toast: { open: true, message: ERROR_MESSAGES.MEDIA, severity: 'error' }
         })
       );
     } finally {
