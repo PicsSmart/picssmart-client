@@ -16,7 +16,7 @@ const FileMountComponent = () => {
     // make a call to the backend to mount the folder
     // for now, just copy the contents of the folder to the data folder in backend
     if (folderPath === undefined) {
-      console.log('No folder selected');
+      // console.log('No folder selected');
       dispatch(
         setToast({
           toast: { open: true, message: 'No folder selected', severity: 'error' },
@@ -26,7 +26,7 @@ const FileMountComponent = () => {
     }
     await axios.post(`${import.meta.env.VITE_PERSONAL_CLOUD_URL}/mount_album`, {folderPath})
     .then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       dispatch(
         setToast({
           toast: { open: true, message: 'Folder mounted. Processing images... This may take a while.', severity: 'info' },
@@ -34,7 +34,7 @@ const FileMountComponent = () => {
       );
     }
     ).catch((error) => {
-      console.log(error);
+      // console.log(error);
       dispatch(
         setToast({
           toast: { open: true, message: 'Error while mounting folder', severity: 'error' },

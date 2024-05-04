@@ -16,7 +16,6 @@ const SearchBar = ({setPhotos, setError, setLoading}) => {
         try{
             setLoading(true)
             const {data} =  await textSearchApi(caption)
-            console.log(data)
             data.results.forEach(element => {
                 setPhotos((prev)=>[...prev, element.payload]);
             });

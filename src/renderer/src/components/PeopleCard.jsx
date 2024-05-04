@@ -32,13 +32,4 @@ const PeopleCard = ({ data }) => {
   );
 };
 
-PeopleCard.propTypes = {
-  data: PropTypes.shape({
-    face: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    photoCount: PropTypes.number.isRequired,
-    favouriteCount: PropTypes.number.isRequired
-  }).isRequired
-};
-
 export default PeopleCard;

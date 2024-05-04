@@ -1,9 +1,12 @@
-import ImageGallery from '../components/ImageGallery';
-import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
 import { setMedia } from '../store/reducers/media';
 import { setToast } from '../store/reducers/toast';
+
 import { getMediaApi } from '../services/apiService/media';
+
+import ImageGallery from '../components/ImageGallery';
 
 const Home = () => {
   const [loading, setLoading] = useState(false);
@@ -12,10 +15,6 @@ const Home = () => {
   const dispatch = useDispatch();
   const media = useSelector((state) => state.media.media);
   const toast = useSelector((state) => state.toast.toast);
-
-  useEffect(() => {
-    console.log(toast);
-  }, [toast]);
 
   const getMedia = async () => {
     try {

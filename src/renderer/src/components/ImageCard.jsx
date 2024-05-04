@@ -11,7 +11,7 @@ const ContentHeader = ({ image, fav, handleFav }) => {
   // const labels = image.labels.join(', ');
   return (
     <Grid container>
-      <Grid xs={10}>
+      <Grid item xs={10}>
         <Typography variant="h5" component="div">
           {image.name}
         </Typography>
@@ -20,7 +20,7 @@ const ContentHeader = ({ image, fav, handleFav }) => {
           <Box sx={{ fontStyle: 'italic' }}>{labels}</Box>
         </Typography> */}
       </Grid>
-      <Grid xs={2} sx={{ display: 'flex', alignItems: 'top', justifyContent: 'right' }}>
+      <Grid item xs={2} sx={{ display: 'flex', alignItems: 'top', justifyContent: 'right' }}>
         {/* <IconButton aria-label="favourites" color="picsmart" onClick={handleFav}>
           {fav ? <Star /> : <StarOutline />}
         </IconButton> */}

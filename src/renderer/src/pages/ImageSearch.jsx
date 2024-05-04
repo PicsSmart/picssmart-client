@@ -75,10 +75,6 @@ const ImageSearch = () => {
         setPreview(null)
         acceptedFiles.pop()
     }
-
-    useEffect(()=>{
-        console.log(images)
-    }, [images])
     
     return(
         <>
@@ -89,7 +85,7 @@ const ImageSearch = () => {
                     <Paper onMouseOver={()=>{setHovered(true)}} onMouseLeave={()=>{setHovered(false)}} sx={{display:'flex', justifyContent:'center', padding:1, position:'relative', alignItems:"center"}} elevation={5}>
                     {(hovered||isDragActive)&&
                     <>                    
-                        <Paper sx={{position:'absolute', height:'100%', width:'100%', display:'flex', justifyContent:'center', background:'#9160F7', opacity:0.3}} back>
+                        <Paper sx={{position:'absolute', height:'100%', width:'100%', display:'flex', justifyContent:'center', background:'#9160F7', opacity:0.3}}>
                         </Paper>
                         <Button sx={{position:'absolute', m:10}} startIcon={<CloudUploadIcon/>} size='large' color='picsmart'>
                             <Typography variant='h6' fontSize={'1rem'}>Upload an Image to Search</Typography>

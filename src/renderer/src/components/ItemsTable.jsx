@@ -41,18 +41,4 @@ const ItemsTable = ({ data, icon, deleteHandler, navigateHandler }) => {
   );
 };
 
-ItemsTable.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-      count: PropTypes.number.isRequired,
-      favouriteCount: PropTypes.number.isRequired
-    })
-  ).isRequired,
-  icon: PropTypes.element.isRequired,
-  deleteHandler: PropTypes.func.isRequired,
-  navigateHandler: PropTypes.func.isRequired
-};
-
 export default ItemsTable;
