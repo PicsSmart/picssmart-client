@@ -25,8 +25,8 @@ const FileMountComponent = () => {
   return (
     <div>
       {!matchesXs && (
-        <Button variant="contained" color="picsmart" sx={{ width: '100%', whiteSpace: 'nowrap' }} startIcon={<CreateNewFolderIcon />} onClick={openFolder}>
-          Mount Storage
+        <Button variant="contained" color="picsmart" sx={{ width: '100%', whiteSpace: 'nowrap', border: '1px solid', borderColor: 'white' }} startIcon={<CreateNewFolderIcon />} onClick={openFolder}>
+          Mount new folder
         </Button>
       )}
 
