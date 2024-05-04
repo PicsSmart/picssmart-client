@@ -1,9 +1,9 @@
 import axiosProvider from ".";
 
-const getFacesUrl = 'http://127.0.0.1:8000/faces'
-const getThumbnailUrl = 'http://127.0.0.1:8000/thumbnail/:id'
-const getFaceGroupImagesUrl = 'http://127.0.0.1:8000/faces/:id'
-const getFaceGroupIdUrl = 'http://127.0.0.1:8000/faces/group'
+const getFacesUrl = `${import.meta.env.VITE_PERSONAL_CLOUD_URL}/faces`
+const getThumbnailUrl = `${import.meta.env.VITE_PERSONAL_CLOUD_URL}/thumbnail/:id`
+const getFaceGroupImagesUrl = `${import.meta.env.VITE_PERSONAL_CLOUD_URL}/faces/:id`
+const getFaceGroupIdUrl = `${import.meta.env.VITE_PERSONAL_CLOUD_URL}/faces/group`
 
 export async function getFacesApi(){  
     try{

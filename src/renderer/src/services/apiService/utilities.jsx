@@ -1,8 +1,8 @@
 import axiosProvider from ".";
 
-const textSearchUrl = 'http://127.0.0.1:8000/text-search'
-const similaritySearchByIdUrl = 'http://127.0.0.1:8000/similar-search?imageId=:id&limit=4'
-const similarSearchByImageUrl = 'http://127.0.0.1:8000/similar-search'
+const textSearchUrl = `${import.meta.env.VITE_PERSONAL_CLOUD_URL}/text-search`
+const similaritySearchByIdUrl = `${import.meta.env.VITE_PERSONAL_CLOUD_URL}/similar-search?imageId=:id&limit=4`
+const similarSearchByImageUrl = `${import.meta.env.VITE_PERSONAL_CLOUD_URL}/similar-search`
 
 export const textSearchApi = async (caption) => {  
     try{

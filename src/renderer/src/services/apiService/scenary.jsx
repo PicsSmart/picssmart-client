@@ -1,8 +1,8 @@
 import axiosProvider from ".";
 
-const getScenesUrl = 'http://127.0.0.1:8000/scenes'
-const getSceneThumbnailUrl = 'http://127.0.0.1:8000/scene/thumbnail/:name'
-const getSceneImagesUrl = 'http://127.0.0.1:8000/scenes/:name'
+const getScenesUrl = `${import.meta.env.VITE_PERSONAL_CLOUD_URL}/scenes`
+const getSceneThumbnailUrl = `${import.meta.env.VITE_PERSONAL_CLOUD_URL}/scene/thumbnail/:name`
+const getSceneImagesUrl = `${import.meta.env.VITE_PERSONAL_CLOUD_URL}/scenes/:name`
 
 export async function getScenesApi(){  
     try{

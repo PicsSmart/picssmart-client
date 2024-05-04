@@ -146,8 +146,8 @@ const PhotoView = () => {
             <Grid container columnSpacing={3}>
                 <Grid item md={6} xs={12}>
                         <ModalImage 
-                        small={`http://127.0.0.1:8000/fullsize/${id}`}
-                        large={`http://127.0.0.1:8000/fullsize/${id}`}
+                        small={`${import.meta.env.VITE_PERSONAL_CLOUD_URL}/fullsize/${id}`}
+                        large={`${import.meta.env.VITE_PERSONAL_CLOUD_URL}/fullsize/${id}`}
                         />
                 </Grid>
                 <Grid item md={6}>
@@ -242,7 +242,7 @@ const PhotoView = () => {
                                         {photoDetails?.faces.map((face, index) => {
                                         return (
                                             <Grid item >
-                                                <Avatar onClick={()=>{handleAvatarClick(face, photoDetails._id)}} variant='rounded' sx={{ width: '5rem', height: '5rem', borderRadius:4}} key={`face-${index}`} alt="" src={`http://127.0.0.1:8000/thumbnail/${photoDetails._id}?top=${face.top}&right=${face.right}&bottom=${face.bottom}&left=${face.left}`} />
+                                                <Avatar onClick={()=>{handleAvatarClick(face, photoDetails._id)}} variant='rounded' sx={{ width: '5rem', height: '5rem', borderRadius:4}} key={`face-${index}`} alt="" src={`${import.meta.env.VITE_PERSONAL_CLOUD_URL}/thumbnail/${photoDetails._id}?top=${face.top}&right=${face.right}&bottom=${face.bottom}&left=${face.left}`} />
                                             </Grid>
                                         )
                                         })}

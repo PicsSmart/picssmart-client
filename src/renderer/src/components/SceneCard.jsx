@@ -18,7 +18,7 @@ const SceneCard = ({ scene }) => {
   return (
     <Card sx={{ width: 250 }}>
       <CardActionArea>
-      <CardMedia component="img" image={`http://127.0.0.1:8000/scenes/thumbnail/${scene}`} alt="image" height="140" />
+      <CardMedia component="img" image={`${import.meta.env.VITE_PERSONAL_CLOUD_URL}/scenes/thumbnail/${scene}`} alt="image" height="140" />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             Scene - {scene.charAt(0).toUpperCase() + scene.slice(1)}

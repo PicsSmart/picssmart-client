@@ -16,8 +16,8 @@ const FileMountComponent = () => {
       console.log('No folder selected');
       return;
     }
-    const res = await axios.post('http://localhost:8000/mount_album', {folderPath})
-    // console.log(res.data);
+    const res = await axios.post(`${import.meta.env.VITE_PERSONAL_CLOUD_URL}/mount_album`, {folderPath})
+    console.log(res.data);
   }
 
   const matchesXs = useMediaQuery((theme) => theme.breakpoints.down('lg'));

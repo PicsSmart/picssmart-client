@@ -89,7 +89,7 @@ export default function ImageCard({ image }) {
   return (
     <Card sx={{ width: 280 }}>
       <CardActionArea onClick={handleClick}>
-        <CardMedia component="img" image={`http://127.0.0.1:8000/thumbnail/${image?._id}`} alt="image" height="140" />
+        <CardMedia component="img" image={`${import.meta.env.VITE_PERSONAL_CLOUD_URL}/thumbnail/${image?._id}`} alt="image" height="140" />
         <CardContent m="4">
           <ContentHeader image={image} fav={fav} handleFav={handleFav} />
           <ContentBody image={image} />

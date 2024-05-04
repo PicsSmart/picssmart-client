@@ -55,7 +55,7 @@ const Person = () => {
         {person&&<CardMedia
           sx={{ borderRadius: '50px', padding: '10px', width: '150px', height: '150px' }}
           component="img"
-          image={`http://127.0.0.1:8000/thumbnail/${person?.imageId}?top=${person?.face.top}&right=${person?.face.right}&bottom=${person?.face.bottom}&left=${person?.face.left}`}
+          image={`${import.meta.env.VITE_PERSONAL_CLOUD_URL}/thumbnail/${person?.imageId}?top=${person?.face.top}&right=${person?.face.right}&bottom=${person?.face.bottom}&left=${person?.face.left}`}
           alt={person?._id}
         />}
         <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', marginRight: '50px' }}>

@@ -1,7 +1,7 @@
 import axiosProvider from ".";
 
-const getAlbumsUrl = 'http://127.0.0.1:8000/albums'
-const getAlbumMediaUrl = 'http://127.0.0.1:8000/albums/:id/media'
+const getAlbumsUrl = `${import.meta.env.VITE_PERSONAL_CLOUD_URL}/albums`
+const getAlbumMediaUrl = `${import.meta.env.VITE_PERSONAL_CLOUD_URL}/albums/:id/media`
 
 export const getAlbumsApi = async ()=>{
     try {

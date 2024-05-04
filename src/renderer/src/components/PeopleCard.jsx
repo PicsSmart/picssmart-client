@@ -15,7 +15,7 @@ const PeopleCard = ({ data }) => {
   return (
     <Card sx={{ width: 250 }}>
       <CardActionArea>
-        <CardMedia sx={{ borderRadius: '50px', padding: '10px' }} component="img" image={`http://127.0.0.1:8000/thumbnail/${data.imageId}?top=${data.face.top}&right=${data.face.right}&bottom=${data.face.bottom}&left=${data.face.left}`} alt={data._id} height='250'/>
+        <CardMedia sx={{ borderRadius: '50px', padding: '10px' }} component="img" image={`${import.meta.env.VITE_PERSONAL_CLOUD_URL}/thumbnail/${data.imageId}?top=${data.face.top}&right=${data.face.right}&bottom=${data.face.bottom}&left=${data.face.left}`} alt={data._id} height='250'/>
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             Name - {data._id}

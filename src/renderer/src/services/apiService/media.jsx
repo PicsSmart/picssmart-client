@@ -1,9 +1,9 @@
 import axiosProvider from ".";
 
-const getMediaUrl = 'http://127.0.0.1:8000/media'
-const getFullsizeMediaUrl = 'http://127.0.0.1:8000/fullsize/:id'
-const getMediaByIdUrl = 'http://127.0.0.1:8000/media/:id'
-const updateMediaUrl = 'http://127.0.0.1:8000/media/:id'
+const getMediaUrl = `${import.meta.env.VITE_PERSONAL_CLOUD_URL}/media`
+const getFullsizeMediaUrl = `${import.meta.env.VITE_PERSONAL_CLOUD_URL}/fullsize/:id`
+const getMediaByIdUrl = `${import.meta.env.VITE_PERSONAL_CLOUD_URL}/media/:id`
+const updateMediaUrl = `${import.meta.env.VITE_PERSONAL_CLOUD_URL}/media/:id`
 
 export const getMediaApi = async () => {  
     try{
