@@ -1,17 +1,10 @@
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import PeopleCard from '../components/PeopleCard';
-import { getSceneImagesApi, getSceneThumbnailApi, getScenesApi } from '../services/apiService/scenary';
+import { getScenesApi } from '../services/apiService/scenary';
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setFaces } from '../store/reducers/faces';
+import { useDispatch } from 'react-redux';
 import SceneGallery from '../components/SceneGallery';
-
-import { useNavigate } from 'react-router-dom';
+import { setToast } from '../store/reducers/toast';
 
 const Scenaries = () => {
-  const navigate = useNavigate();
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [scenes, setScenes] = useState([]);
@@ -23,8 +16,18 @@ const Scenaries = () => {
       setLoading(true);
       const { data } = await getScenesApi();
       setScenes(data.scenes)
+      dispatch(
+        setToast({
+          toast: { open: true, message: 'Scenes fetched successfully', severity: 'success' }
+        })
+      );
     } catch (exception) {
       setError(exception);
+      dispatch(
+        setToast({
+          toast: { open: true, message: 'Error while fetching scenes', severity: 'error' }
+        })
+      );
     } finally {  
       setLoading(false);
     }

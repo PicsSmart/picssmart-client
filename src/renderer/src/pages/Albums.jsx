@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {setAlbums} from '../store/reducers/albums';
 import { useEffect,useState } from 'react';
 import { getAlbumsApi } from '../services/apiService/albums';
+import { setToast } from '../store/reducers/toast';
 
 const Albums = () => {
   const [loading, setLoading] = useState(false)
@@ -19,8 +20,18 @@ const Albums = () => {
       const {data} = await getAlbumsApi()
       console.log(data)
       dispatch(setAlbums({albums:data}))
+      dispatch(
+        setToast({
+          toast:{ open:true, message:'Albums fetched successfully', severity:'success' }
+        })
+      );
     }catch(exception){
       setError(execption)
+      dispatch(
+        setToast({
+          toast:{ open:true, message:'Error while fetching albums', severity:'error' }
+        })
+      );
     }finally{
       setLoading(false)
     }

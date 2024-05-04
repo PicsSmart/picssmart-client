@@ -14,6 +14,7 @@ import Breadcrumbs from '../../components/@extended/Breadcrumbs';
 
 // types
 import { openDrawer } from '../../store/reducers/menu';
+import Toast from '../../components/toast';
 
 // ==============================|| MAIN LAYOUT ||============================== //
 

@@ -1,11 +1,11 @@
 import { useParams } from 'react-router-dom';
-import { Box, CardMedia, Button, Typography } from '@mui/material/index';
+import { Box, Typography } from '@mui/material/index';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { getFaceGroupImagesApi } from '../services/apiService/people';
 import ImageGallery from '../components/ImageGallery';
 import { getSceneImagesApi } from '../services/apiService/scenary';
+import { setToast } from '../store/reducers/toast';
 
 const Scenary = () => {
   const { name } = useParams();
@@ -13,6 +13,7 @@ const Scenary = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [photos, setPhotos] = useState([]); 
+  const dispatch = useDispatch();
 
   const getPhotos = async () => {
     try {
@@ -20,9 +21,19 @@ const Scenary = () => {
       const { data } = await getSceneImagesApi(name);
       data.results.forEach(element => {
         setPhotos((prev)=>[...prev, element.payload]);
-    });
+      });
+      dispatch(
+        setToast({
+          toast: { open: true, message: 'Scene photos fetched successfully', severity: 'success' }
+        })
+      );
     } catch (exception) {
       setError(exception);
+      dispatch(
+        setToast({
+          toast: { open: true, message: 'Error while fetching the scene photos', severity: 'error' }
+        })
+      );
     } finally{
       setLoading(false);
     }

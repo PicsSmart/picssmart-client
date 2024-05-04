@@ -5,6 +5,8 @@ import { Button, Paper, Box, Typography } from '@mui/material';
 import { similarSearchByImage } from '../services/apiService/utilities';
 import ImageGallery from '../components/ImageGallery';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { useDispatch } from 'react-redux';
+import { setToast } from '../store/reducers/toast';
 
 const ImageSearch = () => {
 
@@ -13,6 +15,7 @@ const ImageSearch = () => {
     const [images, setImages] = useState([])
     const [preview, setPreview] = useState(null)
     const [hovered, setHovered] = useState(false)
+    const dispatch = useDispatch()
 
     const getSimilarImages = async (file) => {
         try {
@@ -21,8 +24,18 @@ const ImageSearch = () => {
             data.results.forEach(element => {
                 setImages((prev)=>[...prev, element.payload]);
             });
+            dispatch(
+                setToast({
+                    toast: { open: true, message: 'Seacrh results fetched successfully', severity: 'success' }
+                })
+            );
         } catch (exception) {
             setError(exception)
+            dispatch(
+                setToast({
+                    toast: { open: true, message: 'Error while fetching search results', severity: 'error' }
+                })
+            );
         } finally{
             setLoading(false)
         }
@@ -46,20 +59,27 @@ const ImageSearch = () => {
     async function handleSubmit(e) {
         e.preventDefault();
         setImages([])
-        if ( typeof acceptedFiles[0] === 'undefined' ) return;
-
+        if ( typeof acceptedFiles[0] === 'undefined' ){
+            dispatch(
+                setToast({
+                    toast: { open: true, message: 'Please upload an image to search', severity: 'error' }
+                })
+            );
+            return
+        }
         getSimilarImages(acceptedFiles[0])   
     }
 
     function handleClear(){
         setImages([])
         setPreview(null)
-        acceptedFiles=[]
+        acceptedFiles.pop()
     }
 
     useEffect(()=>{
         console.log(images)
     }, [images])
+    
     return(
         <>
             <form className="max-w-md border border-gray-200 rounded p-6 mx-auto" >
@@ -86,7 +106,7 @@ const ImageSearch = () => {
 
                 </div>
                 <Box sx={{display:'flex', marginBottom:5, marginTop:2}}>
-                    <Button onClick={handleSubmit} variant='contained' color='picsmart' sx={{marginRight:2}}>Submit</Button>
+                    <Button onClick={handleSubmit} variant='contained' color='picsmart' sx={{marginRight:2}}>Search</Button>
                     <Button onClick={handleClear} variant='contained' color='error'>Clear</Button>
                 </Box>
             </form>

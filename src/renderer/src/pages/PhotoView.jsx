@@ -12,6 +12,7 @@ import { setFaces } from '../store/reducers/faces';
 import { updateMedia } from "../store/reducers/media";
 import { useDispatch } from "react-redux";
 import { Edit, Check} from '@mui/icons-material'
+import { setToast } from "../store/reducers/toast";
 
 const PhotoView = () => {
     const {id} = useParams();
@@ -30,7 +31,6 @@ const PhotoView = () => {
         try {
           setLoading(true);
           const { data } = await getFacesApi();
-        //   console.log(data)
           dispatch(setFaces({ faces: data }));
         } catch (exception) {
           setError(exception);
@@ -46,19 +46,11 @@ const PhotoView = () => {
             setPhotoDetails(data)
         }catch(exception){
             setError(exception)
-        }finally{
-            setLoading(false)
-        }
-    }
-
-    const getFullsizePhoto = async ()=>{
-        try{
-            setLoading(true)
-            const response = await getFullsizeMediaApi(id)
-            setPhoto(response)
-            console.log(blob)
-        }catch(exception){
-            setError(exception)
+            dispatch(
+                setToast({
+                    toast: { open: true, message: 'Error while fetching photo details', severity: 'error' }
+                })
+            );
         }finally{
             setLoading(false)
         }
@@ -76,6 +68,11 @@ const PhotoView = () => {
             });
         }catch(exception){
             setError(exception)
+            dispatch(
+                setToast({
+                    toast: { open: true, message: 'Error while fetching similar photos', severity: 'error' }
+                })
+            );
         }finally{
             setLoading(false)
         }
@@ -99,8 +96,18 @@ const PhotoView = () => {
             setLoading(true)
             const response = await updateMediaApi(id, data)
             console.log(response.data)
+            dispatch(
+                setToast({
+                    toast: { open: true, message: 'Caption updated successfully', severity: 'success' }
+                })
+            );
         }catch(exception){
             setError(exception)
+            dispatch(
+                setToast({
+                    toast: { open: true, message: 'Error while updating the caption', severity: 'error' }
+                })
+            );
         }finally{
             setLoading(false)
         }
@@ -134,8 +141,15 @@ const PhotoView = () => {
     }
 
     useEffect(() => {
-        getPhotoDetails()
-        getSimilarPhotos()
+        getPhotoDetails().then(()=>{
+            getSimilarPhotos().then(()=>{
+                dispatch(
+                    setToast({
+                        toast: { open: true, message: 'Photo details fetched successfully', severity: 'success' }
+                    })
+                );
+            })
+        });
     },[window.location.pathname]);
 
     return (

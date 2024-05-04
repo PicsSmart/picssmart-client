@@ -5,6 +5,7 @@ import { getFacesApi } from '../services/apiService/people';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFaces } from '../store/reducers/faces';
+import { setToast } from '../store/reducers/toast';
 import PeopleGallery from '../components/PeopleGallery';
 
 import { useNavigate } from 'react-router-dom';
@@ -26,8 +27,18 @@ const People = () => {
       setLoading(true);
       const { data } = await getFacesApi();
       dispatch(setFaces({ faces: data }));
+      dispatch(
+        setToast({
+          toast: { open: true, message: 'Profiles fetched successfully', severity: 'success' }
+        })
+      );
     } catch (exception) {
       setError(exception);
+      dispatch(
+        setToast({
+          toast: { open: true, message: 'Error while fetching profiles', severity: 'error' }
+        })
+      );
     } finally {  
       setLoading(false);
     }

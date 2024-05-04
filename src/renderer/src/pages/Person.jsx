@@ -5,6 +5,8 @@ import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { getFaceGroupImagesApi, getFacesApi } from '../services/apiService/people';
 import ImageGallery from '../components/ImageGallery';
+import { setToast } from '../store/reducers/toast';
+import { useDispatch } from 'react-redux';
 
 const Person = () => {
   const { id } = useParams();
@@ -15,7 +17,7 @@ const Person = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [photos, setPhotos] = useState([]); 
-
+  const dispatch = useDispatch();
 
 
   const getFacePhotos = async () => {
@@ -28,8 +30,18 @@ const Person = () => {
           setPhotos((prev)=>[...prev, img]);
         }
       });
+      dispatch(
+        setToast({
+          toast: { open: true, message: 'Profile fetched successfully', severity: 'success' }
+        })
+      );
     } catch (exception) {
       setError(exception);
+      dispatch(
+        setToast({
+          toast: { open: true, message: 'Error while fetching the profile', severity: 'error' }
+        })
+      );
     } finally{
       setLoading(false);
     }

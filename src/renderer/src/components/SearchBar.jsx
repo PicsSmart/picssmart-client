@@ -1,15 +1,17 @@
 // material-ui
-import { Box, FormControl, InputAdornment, OutlinedInput, Button, IconButton } from '@mui/material';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { Box, FormControl, InputAdornment, OutlinedInput, Button } from '@mui/material';
 
 // assets
 import SearchIcon from '@mui/icons-material/Search';
 import { textSearchApi } from '../services/apiService/utilities';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setToast } from '../store/reducers/toast';
 // ==============================|| HEADER CONTENT - SEARCH ||============================== //
 
 const SearchBar = ({setPhotos, setError, setLoading}) => {
 
+    const dispatch = useDispatch();
     const textSearch = async ()=>{
         try{
             setLoading(true)
@@ -18,8 +20,18 @@ const SearchBar = ({setPhotos, setError, setLoading}) => {
             data.results.forEach(element => {
                 setPhotos((prev)=>[...prev, element.payload]);
             });
+            dispatch(
+                setToast({
+                    toast: { open: true, message: 'Search results fetched successfully', severity: 'success' }
+                })
+            );
         }catch(exception){
             setError(exception)
+            dispatch(
+                setToast({
+                    toast: { open: true, message: 'Error while fetching the search results', severity: 'error' }
+                })
+            );
         }finally{
             setLoading(false)
         }
@@ -31,6 +43,14 @@ const SearchBar = ({setPhotos, setError, setLoading}) => {
 
     const handleClick = () => {
         setPhotos([])
+        if(caption === ''){
+            dispatch(
+                setToast({
+                    toast: { open: true, message: 'Please enter text to search', severity: 'error' }
+                })
+            );
+            return
+        }
         textSearch()
     }
 
