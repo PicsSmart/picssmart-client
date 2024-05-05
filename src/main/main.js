@@ -1,4 +1,4 @@
-import { app, BrowserWindow, dialog, ipcMain } from 'electron';
+import { app, BrowserWindow, dialog, ipcMain, Menu } from 'electron';
 import * as path from 'path';
 import 'dotenv/config'
 import axios from 'axios';
@@ -7,7 +7,7 @@ const fs = require('fs');
 const archiver = require('archiver');
 const FormData = require('form-data');
 
-// import { getMsgFromQueue } from './kafka';
+import { kafkaConsume } from './kafka';
 
 let mainWindow;
 
@@ -56,6 +56,8 @@ const sendZipFile = async (zipFilePath) => {
       }
     }
   )
+
+
   return response.data
 }
 
@@ -75,7 +77,7 @@ function createWindow() {
   mainWindow.on('closed', () => mainWindow = null);
 }
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   ipcMain.handle('dialog:openFolder', handleFolderSelect);
 
   // ipcMain.handle('kafka:consume', async () => {
@@ -95,11 +97,16 @@ app.whenReady().then(() => {
       return;
     } else{
       const data = await sendZipFile(zipFilePath);
+      // delete the zip file
+      fs.unlinkSync(zipFilePath);
       return data;
     }
 
   });
+
   createWindow();
+  await kafkaConsume(mainWindow);
+
 });
 
 app.on('window-all-closed', () => {

@@ -11,6 +11,7 @@ export const SUCCESS_MESSAGES = {
     SCENES: 'Scenes fetched successfully',
     SCENE_PHOTOS: 'Scene photos fetched successfully',
     FOLDER_MOUNT_START: 'Folder mounted. Processing images... This may take a while.',
+    FOLDER_MOUNT_FINISH: 'Go to Albums to view the images',
 }
 
 export const ERROR_MESSAGES = {
@@ -29,4 +30,5 @@ export const ERROR_MESSAGES = {
     ENTER_TEXT_TO_SEARCH: 'Please enter text to search',
     FOLDER_MOUNT_START: 'Error while mounting folder',
     SELECT_FOLDER: 'Please select a folder',
+    FOLDER_MOUNT_FINISH: 'Error while adding the new album',
 }

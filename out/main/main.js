@@ -16056,6 +16056,24 @@ axios.formToJSON = (thing) => formDataToJSON(utils$1.isHTMLForm(thing) ? new For
 axios.getAdapter = adapters.getAdapter;
 axios.HttpStatusCode = HttpStatusCode$1;
 axios.default = axios;
+const { Kafka, logLevel } = require("kafkajs");
+const kafka = new Kafka({
+  logLevel: logLevel.NOTHING,
+  brokers: ["localhost:9092"]
+});
+const topic = "notifications";
+const consumer = kafka.consumer({ groupId: "my-group" });
+const kafkaConsume = async (mainWindow2) => {
+  await consumer.connect();
+  await consumer.subscribe({ topic, fromBeginning: true });
+  await consumer.run({
+    eachMessage: async ({ topic: topic2, partition, message }) => {
+      const data = JSON.parse(message.value.toString());
+      mainWindow2.webContents.send("add-album", data.status);
+      console.log(data);
+    }
+  });
+};
 const fs = require("fs");
 const archiver = require("archiver");
 const FormData$1 = require("form-data");
@@ -16113,7 +16131,7 @@ function createWindow() {
   mainWindow.loadURL("http://localhost:5173");
   mainWindow.on("closed", () => mainWindow = null);
 }
-electron.app.whenReady().then(() => {
+electron.app.whenReady().then(async () => {
   electron.ipcMain.handle("dialog:openFolder", handleFolderSelect);
   electron.ipcMain.handle("dialog:zipFolder", async (_, sourceFolder) => {
     console.log("Zipping folder:", sourceFolder);
@@ -16125,10 +16143,12 @@ electron.app.whenReady().then(() => {
       return;
     } else {
       const data = await sendZipFile(zipFilePath);
+      fs.unlinkSync(zipFilePath);
       return data;
     }
   });
   createWindow();
+  await kafkaConsume(mainWindow);
 });
 electron.app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {

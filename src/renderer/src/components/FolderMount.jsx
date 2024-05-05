@@ -28,8 +28,8 @@ const FileMountComponent = () => {
 
     // console.log(folderPath);
     await window.electronAPI.sendZipFolder(folderPath)
-    .then((res) => {
-      console.log(res.data);
+    .then(async (res) => {
+      // console.log(res.data);
       dispatch(
         setToast({
           toast: { open: true, message: SUCCESS_MESSAGES.FOLDER_MOUNT_START, severity: 'info' },
