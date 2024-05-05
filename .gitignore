@@ -27,3 +27,4 @@ out
 
 .env
 .env.production
+.env.local

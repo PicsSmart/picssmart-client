@@ -1,5 +1,7 @@
 import axios from 'axios';
-const options = {};
+const options = {
+  withCredentials: false,
+};
 
 const axiosProvider = axios.create({
   baseURL: 'http://localhost:3000/',
