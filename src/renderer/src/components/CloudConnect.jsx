@@ -3,7 +3,7 @@ import { Button, IconButton} from '@mui/material';
 import { useMediaQuery } from '@mui/material';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { isConnectedToCloud } from '../services/apiService/cloud';
+import { connectToCloud, disconnectFromCloud, isConnectedToCloud } from '../services/apiService/cloud';
 
 const CloudConnectComponent = () => {
   const [open, setOpen] = useState(false);
@@ -20,12 +20,18 @@ const CloudConnectComponent = () => {
 
   const handleConfirmDisconnect = () => {
     console.log('Disconnecting');
-    // TODO: remove the personal cloud URL from the .env file
+    disconnectFromCloud().then(() => {
+      setConnected(false);
+      // TODO: Refresh the page to reflect the disconnection
+    });
   }
 
-  const handleConfirmConnect = () => {
+  const handleConfirmConnect = (url) => {
     console.log('Connecting');
-    // TODO: set the personal cloud URL in the .env file
+    connectToCloud(url).then(() => {
+      setConnected(true);
+      // TODO: Refresh the page to reflect the connection
+    });
   }
 
   
@@ -74,7 +80,7 @@ const CloudConnectComponent = () => {
         setInputOpen(false);
         if(url !== undefined && url !== ''){
           console.log('Connecting to personal cloud at ', url);
-          handleConfirmConnect();
+          handleConfirmConnect(url);
         } else {
           console.log('Connection cancelled');
         }
