@@ -1,26 +1,24 @@
 import axiosProvider from ".";
 
-const getFacesUrl = `${import.meta.env.VITE_PERSONAL_CLOUD_URL}/faces`
-const getThumbnailUrl = `${import.meta.env.VITE_PERSONAL_CLOUD_URL}/thumbnail/:id`
-const getFaceGroupImagesUrl = `${import.meta.env.VITE_PERSONAL_CLOUD_URL}/faces/:id`
-const getFaceGroupIdUrl = `${import.meta.env.VITE_PERSONAL_CLOUD_URL}/faces/group`
-
 export async function getFacesApi(){  
     try{
-        const response = await axiosProvider.get(getFacesUrl)
+        const cloudUrl = await window.electronAPI.getCloudUrl()
+        const response = await axiosProvider.get(`${cloudUrl}/faces`)
         return Promise.resolve(response)
     }catch(exception){
         return Promise.reject(exception)
     }
   };  
 
-export function getThumbnailUrlApi(id){
-    return getThumbnailUrl.replace(':id', id);
+export async function getThumbnailUrlApi(id){
+    const cloudUrl = await window.electronAPI.getCloudUrl()
+    return `${cloudUrl}/thumbnail/${id}`
 }
 
 export async function getFaceGroupImagesApi(id){
     try{
-        const response = await axiosProvider.get(getFaceGroupImagesUrl.replace(':id', id))
+        const cloudUrl = await window.electronAPI.getCloudUrl()
+        const response = await axiosProvider.get(`${cloudUrl}/faces/${id}`)
         return Promise.resolve(response)
     }catch(exception){
         return Promise.reject(exception)
@@ -29,7 +27,8 @@ export async function getFaceGroupImagesApi(id){
 
 export async function getFaceGroupIdApi(face, id){
     try{
-        const response = await axiosProvider.post(getFaceGroupIdUrl, {face:face, imageId:id})
+        const cloudUrl = await window.electronAPI.getCloudUrl()
+        const response = await axiosProvider.post(`${cloudUrl}/faces/group`, {face:face, imageId:id})
         return Promise.resolve(response)
     }catch(exception){
         return Promise.reject(exception)

@@ -76,8 +76,11 @@ export default function ImageCard({ image }) {
   const [thumbnailUrl, setThumbnailUrl] = React.useState('');
 
   React.useEffect(() => {
-    const url = getThumbnailUrlById(image._id);
-    setThumbnailUrl(url)
+    async function fetchThumbnailUrl() {
+      const url = await getThumbnailUrlById(image._id);
+      setThumbnailUrl(url);
+    }
+    fetchThumbnailUrl();
   }, []);
 
   const handleFav = () => {

@@ -126,6 +126,16 @@ app.whenReady().then( async () => {
 
   ipcMain.handle('dialog:openFolder', handleFolderSelect);
 
+  // Handle getCloudUrl and setCloudUrl
+  ipcMain.handle('getCloudUrl', () => {
+    return store.get('cloudUrl')
+  })
+
+  ipcMain.handle('setCloudUrl', (_, url) => {
+    console.log(url)
+    store.set('cloudUrl', url)
+  })
+
     ipcMain.handle('dialog:zipFolder', async (_, sourceFolder) => {
     console.log('Zipping folder:', sourceFolder)
     const zipFilePath = 'output.zip';

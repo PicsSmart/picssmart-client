@@ -52,8 +52,11 @@ const Person = () => {
   useEffect(() => { 
     const person = faces.filter((face) => face._id === id)[0];
     setPerson(person);
-    const url = getThumbnailUrlApi(person.imageId);
-    setThumbnailUrl(url);
+    async function fetchData() {
+      const url = await getThumbnailUrlApi(person.imageId);
+      setThumbnailUrl(url);
+    }
+    fetchData();
     getFacePhotos();
   } , [window.location.pathname]);
 

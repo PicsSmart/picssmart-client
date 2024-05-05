@@ -14,8 +14,11 @@ const PeopleCard = ({ data }) => {
   const [thumbnailUrl, setThumbnailUrl] = useState('');
 
   useEffect(() => {
-    const url = getThumbnailUrlApi(data.imageId);
-    setThumbnailUrl(url);
+    async function fetchData() {
+      const url = await getThumbnailUrlApi(data.imageId);
+      setThumbnailUrl(url);
+    }
+    fetchData();
   }, []);
 
   return (

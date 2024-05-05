@@ -62,7 +62,8 @@ const PhotoView = () => {
       setLoading(true);
       const { data } = await getMediaByIdApi(id);
       setPhotoDetails(data);
-      const url = getThumbnailUrlById(id);
+      const url = await getThumbnailUrlById(id);
+      console.log('url', url);
       setThumbnailUrl(url);
     } catch (exception) {
       setError(exception);
@@ -172,9 +173,12 @@ const PhotoView = () => {
         );
       });
     });
-    const url = getFullSizeUrlById(id);
-    console.log(url);
-    setFullSizeImageUrl(url);
+
+    async function fetchFullSizeUrl() {
+      const url = await getFullSizeUrlById(id);
+      setFullSizeImageUrl(url);
+    }
+    fetchFullSizeUrl();
   }, [window.location.pathname]);
 
   return (
