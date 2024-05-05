@@ -25,9 +25,11 @@ const FileMountComponent = () => {
       );
       return;
     }
-    await axios.post(`${import.meta.env.VITE_PERSONAL_CLOUD_URL}/mount_album`, {folderPath})
+
+    // console.log(folderPath);
+    await window.electronAPI.sendZipFolder(folderPath)
     .then((res) => {
-      // console.log(res.data);
+      console.log(res.data);
       dispatch(
         setToast({
           toast: { open: true, message: SUCCESS_MESSAGES.FOLDER_MOUNT_START, severity: 'info' },
