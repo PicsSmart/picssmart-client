@@ -1,6 +1,6 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 
 // scroll bar
 import 'simplebar/src/simplebar.css';
@@ -22,9 +22,9 @@ const container = document.getElementById('root');
 const root = createRoot(container); // createRoot(container!) if you use TypeScript
 root.render(
   <ReduxProvider store={store}>
-    <BrowserRouter basename="/">
+    <MemoryRouter basename="/">
       <App />
-    </BrowserRouter>
+    </MemoryRouter>
   </ReduxProvider>
 );
 
