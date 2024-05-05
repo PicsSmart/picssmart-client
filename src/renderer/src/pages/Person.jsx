@@ -3,7 +3,7 @@ import { Box, CardMedia, Button } from '@mui/material/index';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { getFaceGroupImagesApi, getFacesApi } from '../services/apiService/people';
+import { getFaceGroupImagesApi, getFacesApi, getThumbnailUrlApi } from '../services/apiService/people';
 import ImageGallery from '../components/ImageGallery';
 import { setToast } from '../store/reducers/toast';
 import { useDispatch } from 'react-redux';
@@ -19,6 +19,7 @@ const Person = () => {
   const [error, setError] = useState(null);
   const [photos, setPhotos] = useState([]); 
   const dispatch = useDispatch();
+  const [thumbnailUrl, setThumbnailUrl] = useState('');
 
 
   const getFacePhotos = async () => {
@@ -49,7 +50,10 @@ const Person = () => {
   }
 
   useEffect(() => { 
-    setPerson(faces.filter((face) => face._id === id)[0]);
+    const person = faces.filter((face) => face._id === id)[0];
+    setPerson(person);
+    const url = getThumbnailUrlApi(person.imageId);
+    setThumbnailUrl(url);
     getFacePhotos();
   } , [window.location.pathname]);
 
@@ -68,7 +72,7 @@ const Person = () => {
         {person&&<CardMedia
           sx={{ borderRadius: '50px', padding: '10px', width: '150px', height: '150px' }}
           component="img"
-          image={`${import.meta.env.VITE_PERSONAL_CLOUD_URL}/thumbnail/${person?.imageId}?top=${person?.face.top}&right=${person?.face.right}&bottom=${person?.face.bottom}&left=${person?.face.left}`}
+          image={`${thumbnailUrl}?top=${person?.face.top}&right=${person?.face.right}&bottom=${person?.face.bottom}&left=${person?.face.left}`}
           alt={person?._id}
         />}
         <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', marginRight: '50px' }}>

@@ -14,13 +14,8 @@ export async function getFacesApi(){
     }
   };  
 
-export async function getThumbnailApi(id){
-    try{
-        const response = await axiosProvider.get(getThumbnailUrl.replace(':id', id))
-        return Promise.resolve(response)
-    }catch(exception){
-        return Promise.reject(exception)
-    }
+export function getThumbnailUrlApi(id){
+    return getThumbnailUrl.replace(':id', id);
 }
 
 export async function getFaceGroupImagesApi(id){

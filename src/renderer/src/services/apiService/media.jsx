@@ -5,6 +5,8 @@ const getFullsizeMediaUrl = `${import.meta.env.VITE_PERSONAL_CLOUD_URL}/fullsize
 const getMediaByIdUrl = `${import.meta.env.VITE_PERSONAL_CLOUD_URL}/media/:id`
 const updateMediaUrl = `${import.meta.env.VITE_PERSONAL_CLOUD_URL}/media/:id`
 
+const getThumbnailUrl = `${import.meta.env.VITE_PERSONAL_CLOUD_URL}/thumbnail/:id`
+
 export const getMediaApi = async () => {  
     try{
         const response = await axiosProvider.get(getMediaUrl)
@@ -39,4 +41,12 @@ export const updateMediaApi = async (id, data) => {
     }catch(exception){
         return Promise.reject(exception)
     }
+}
+
+export const getThumbnailUrlById = (id) => {
+    return getThumbnailUrl.replace(':id', id);
+}
+
+export const getFullSizeUrlById = (id) => {
+    return getFullsizeMediaUrl.replace(':id', id);
 }

@@ -22,7 +22,7 @@ import { setFaces } from '../store/reducers/faces';
 import { updateMedia } from '../store/reducers/media';
 import { setToast } from '../store/reducers/toast';
 
-import { getMediaByIdApi, updateMediaApi } from '../services/apiService/media';
+import { getFullSizeUrlById, getMediaByIdApi, getThumbnailUrlById, updateMediaApi } from '../services/apiService/media';
 import { getFaceGroupIdApi, getFacesApi } from '../services/apiService/people';
 import { similaritySearchById } from '../services/apiService/utilities';
 
@@ -40,6 +40,8 @@ const PhotoView = () => {
   const [photo, setPhoto] = useState(null);
   const [photoDetails, setPhotoDetails] = useState(null);
   const [similarPhotos, setSimilarPhotos] = useState([]);
+  const [fullSizeImageUrl, setFullSizeImageUrl] = useState('');
+  const [thumbnailUrl, setThumbnailUrl] = useState('');
 
   const [onEdit, setOnEdit] = useState(false);
 
@@ -60,6 +62,8 @@ const PhotoView = () => {
       setLoading(true);
       const { data } = await getMediaByIdApi(id);
       setPhotoDetails(data);
+      const url = getThumbnailUrlById(id);
+      setThumbnailUrl(url);
     } catch (exception) {
       setError(exception);
       dispatch(
@@ -168,6 +172,9 @@ const PhotoView = () => {
         );
       });
     });
+    const url = getFullSizeUrlById(id);
+    console.log(url);
+    setFullSizeImageUrl(url);
   }, [window.location.pathname]);
 
   return (
@@ -180,8 +187,8 @@ const PhotoView = () => {
       <Grid container columnSpacing={3}>
         <Grid item md={6} xs={12}>
           <ModalImage
-            small={`${import.meta.env.VITE_PERSONAL_CLOUD_URL}/fullsize/${id}`}
-            large={`${import.meta.env.VITE_PERSONAL_CLOUD_URL}/fullsize/${id}`}
+            small={fullSizeImageUrl}
+            large={fullSizeImageUrl}
           />
         </Grid>
         <Grid item md={6}>
@@ -294,7 +301,7 @@ const PhotoView = () => {
                                     sx={{ width: '5rem', height: '5rem', borderRadius: 4 }}
                                     key={`face-${index}`}
                                     alt=""
-                                    src={`${import.meta.env.VITE_PERSONAL_CLOUD_URL}/thumbnail/${photoDetails._id}?top=${face.top}&right=${
+                                    src={`${thumbnailUrl}?top=${face.top}&right=${
                                     face.right
                                     }&bottom=${face.bottom}&left=${face.left}`}
                                 />

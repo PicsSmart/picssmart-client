@@ -6,11 +6,20 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import { PropTypes } from 'prop-types';
-import { getThumbnailApi } from '../services/apiService/people';
 import {useDispatch} from 'react-redux';
 import {setFaces} from '../store/reducers/faces';
+import { getSceneThumbnailApi } from '../services/apiService/scenary';
 
 const SceneCard = ({ scene }) => {
+  const [thumbnailUrl, setThumbnailUrl] = useState('');
+
+  useEffect(() => {
+    async function fetchSceneThumbnail() {
+      const url = await getSceneThumbnailApi(scene);
+      setThumbnailUrl(url);
+    }
+    fetchSceneThumbnail();
+  }, []);
 
 // capitalize the first letter of the scene
 
@@ -18,7 +27,7 @@ const SceneCard = ({ scene }) => {
   return (
     <Card sx={{ width: 250 }}>
       <CardActionArea>
-      <CardMedia component="img" image={`${import.meta.env.VITE_PERSONAL_CLOUD_URL}/scenes/thumbnail/${scene}`} alt="image" height="140" />
+      <CardMedia component="img" image={thumbnailUrl} alt="image" height="140" />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             Scene - {scene.charAt(0).toUpperCase() + scene.slice(1)}

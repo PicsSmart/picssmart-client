@@ -2,11 +2,21 @@ import { CloudOff, CloudQueue } from '@mui/icons-material';
 import { Button, IconButton} from '@mui/material';
 import { useMediaQuery } from '@mui/material';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { isConnectedToCloud } from '../services/apiService/cloud';
 
 const CloudConnectComponent = () => {
   const [open, setOpen] = useState(false);
   const [inputOpen, setInputOpen] = useState(false);
+  const [connected, setConnected] = useState(false);
+
+  useEffect(() => {
+    async function fetchCloudUrl() {
+      const connectedStatus = await isConnectedToCloud();
+      setConnected(connectedStatus);
+    }
+    fetchCloudUrl();
+  }, []);
 
   const handleConfirmDisconnect = () => {
     console.log('Disconnecting');
@@ -23,7 +33,7 @@ const CloudConnectComponent = () => {
 
   return (
     <div style={{ marginRight: '5%' }}>
-      {import.meta.env.VITE_PERSONAL_CLOUD_URL ? (
+      {connected ? (
         <>
         {
         !matchesXs && (

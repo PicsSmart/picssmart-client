@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import { CardActionArea, Grid, IconButton, Box } from '@mui/material';
 import { Star, StarOutline, CalendarMonth, PhotoCamera, LocationOn, Description } from '@mui/icons-material';
 import { useNavigate } from 'react-router';
+import { getThumbnailUrlById } from '../services/apiService/media';
 
 const ContentHeader = ({ image, fav, handleFav }) => {
   // const labels = image.labels.join(', ');
@@ -72,6 +73,13 @@ const ContentBody = ({ image }) => {
 export default function ImageCard({ image }) {
   const navigate = useNavigate();
   const [fav, setFav] = React.useState(false);
+  const [thumbnailUrl, setThumbnailUrl] = React.useState('');
+
+  React.useEffect(() => {
+    const url = getThumbnailUrlById(image._id);
+    setThumbnailUrl(url)
+  }, []);
+
   const handleFav = () => {
     setFav(!fav);
     // setImageList((prev)=>prev.map((img)=>{
@@ -89,7 +97,7 @@ export default function ImageCard({ image }) {
   return (
     <Card sx={{ width: 280 }}>
       <CardActionArea onClick={handleClick}>
-        <CardMedia component="img" image={`${import.meta.env.VITE_PERSONAL_CLOUD_URL}/thumbnail/${image?._id}`} alt="image" height="140" />
+        <CardMedia component="img" image={thumbnailUrl} alt="image" height="140" />
         <CardContent m="4">
           <ContentHeader image={image} fav={fav} handleFav={handleFav} />
           <ContentBody image={image} />
