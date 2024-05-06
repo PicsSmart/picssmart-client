@@ -5,6 +5,7 @@ import ScrollTop from './components/ScrollTop';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setToast } from './store/reducers/toast';
+import { changeMountingStatus } from './store/reducers/mountingStatus';
 import { setMedia } from './store/reducers/media';
 import { getMediaApi } from './services/apiService/media';
 import { ERROR_MESSAGES } from './utils/constants';
@@ -39,6 +40,7 @@ const App = () => {
           toast: { open: true, message: message, severity: 'success' },
         })
       );
+      dispatch(changeMountingStatus(false));
       // console.log(message);
       getMedia();
     });

@@ -28,7 +28,7 @@ const HeaderContent = () => {
         </Typography>
       )}
 
-      <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%', alignItems: 'center' }}>
 
         <CloudConnectComponent />
 
