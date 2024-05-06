@@ -29,6 +29,8 @@ const FileMountComponent = () => {
     }
 
     // console.log(folderPath);
+    dispatch(changeMountingStatus(true));
+    
     await window.electronAPI.sendZipFolder(folderPath)
     .then(async (res) => {
       // console.log(res.data);
@@ -37,7 +39,6 @@ const FileMountComponent = () => {
           toast: { open: true, message: SUCCESS_MESSAGES.FOLDER_MOUNT_START, severity: 'info' },
         })
       );
-      dispatch(changeMountingStatus(true));
     }
     ).catch((error) => {
       // console.log(error);
