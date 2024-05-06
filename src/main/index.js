@@ -52,7 +52,7 @@ const sendZipFile = async (zipFilePath) => {
   let data = new FormData();
   data.append('folder', fs.createReadStream(zipFilePath));
   const response = await axios.post(
-    `http://127.0.0.1:8000/mount_album`,
+    `${store.get('cloudUrl')}/mount_album`,
     data,
     {
       headers: {
