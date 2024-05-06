@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import SceneGallery from '../components/SceneGallery';
 import { setToast } from '../store/reducers/toast';
 import { SUCCESS_MESSAGES, ERROR_MESSAGES } from '../utils/constants';
+import { Box, Typography } from '@mui/material';
 
 const Scenaries = () => {
   const [loading, setLoading] = useState(false);
@@ -40,7 +41,13 @@ const Scenaries = () => {
 
   return (
     <div>
+      {scenes?.length!=0?
       <SceneGallery scenes={scenes} />
+      :
+      <Box sx={{textAlign: 'center' , m:'7rem', mt: '20rem'}}>
+            <Typography variant="h5">No scenes to display.</Typography>
+      </Box>
+      }
     </div>
   );
 };

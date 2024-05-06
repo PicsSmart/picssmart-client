@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setMedia } from '../store/reducers/media';
 import { setToast } from '../store/reducers/toast';
 
+import { Box, Typography } from '@mui/material';
 import { getMediaApi } from '../services/apiService/media';
 
 import ImageGallery from '../components/ImageGallery';
@@ -50,7 +51,12 @@ const Home = () => {
 
   return (
     <div>
+      {media?.length!=0?
       <ImageGallery images={media} />
+      :
+      <Box sx={{textAlign: 'center' , m:'7rem', mt: '20rem'}}>
+          <Typography variant="h5">No photos to display.</Typography>
+      </Box>}
     </div>
   );
 };
