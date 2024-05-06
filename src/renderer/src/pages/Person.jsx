@@ -78,14 +78,14 @@ const Person = () => {
           image={`${thumbnailUrl}?top=${person?.face.top}&right=${person?.face.right}&bottom=${person?.face.bottom}&left=${person?.face.left}`}
           alt={person?._id}
         />}
-        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', marginRight: '50px' }}>
-          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+        <Box>
+          <Box sx={{ display: 'flex', flexDirection:'column', justifyContent: 'center' }}>
+            <h2>Profile ID : </h2>
             <h2>{person?._id}</h2>
-            <span style={{ display: 'flex', alignItems: 'center', marginRight: '10px' }}>{icon}</span>
           </Box>
-          <Button variant="contained" color="error">
+          {/* <Button variant="contained" color="error">
             Delete Profile
-          </Button>
+          </Button> */}
         </Box>
       </Box>
       <Box>

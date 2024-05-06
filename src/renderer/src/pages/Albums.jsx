@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Folder } from '@mui/icons-material';
+import { Grid, Pagination } from '@mui/material';
 
 import { setAlbums } from '../store/reducers/albums';
 import { setToast } from '../store/reducers/toast';
@@ -9,12 +10,14 @@ import { setToast } from '../store/reducers/toast';
 import { getAlbumsApi } from '../services/apiService/albums';
 
 import ItemsTable from '../components/ItemsTable';
+import AlbumCard from '../components/AlbumCard';
 
 import { SUCCESS_MESSAGES, ERROR_MESSAGES } from '../utils/constants';
 
 const Albums = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
 
   const dispatch = useDispatch();
   const albums = useSelector((state) => state.albums.albums);
@@ -51,23 +54,17 @@ const Albums = () => {
     navigate(`/albums/${id}`);
   };
 
-  const deleteHandler = (id) => {
-    console.log(`delete album ${id}`);
-  };
-
-  const icon = (
-    <Folder
-      style={{
-        color: 'picsmart.main',
-        fontSize: '1.25rem'
-      }}
-    />
-  );
-
   return (
     <div>
       <h1>Albums</h1>
-      <ItemsTable data={albums} icon={icon} deleteHandler={deleteHandler} navigateHandler={navigateHandler} />
+      {albums&&<Pagination count={Math.ceil(albums?.length/15)} defaultPage={1} color="picsmart" onChange={(e, value)=>{setPage(value)}} />}
+      <Grid container rowSpacing={3} columnSpacing={5} columns={{ xs: 2, md: 4, lg: 5 }} mt={2}>
+        {albums?.map((album) => (
+          <Grid item key={album._id}>
+            <AlbumCard album={album} handleClick={navigateHandler} />
+          </Grid>
+        ))}
+      </Grid>
     </div>
   );
 };
