@@ -2,7 +2,7 @@ console.log('Prebuild script running')
 // Empty the electron configs file before building (Linux)
 const fsExtra = require('fs-extra')
 const configFolder =
-  '/home/' + require('os').userInfo().username + '/.config/my-electron-vite-react'
+  '/home/' + require('os').userInfo().username + '/.config/picssmart-client'
 
 console.log('Removing config folder:', configFolder)
 
