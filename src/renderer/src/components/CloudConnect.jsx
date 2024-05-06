@@ -9,45 +9,42 @@ import { clearToast } from '../store/reducers/toast';
 import { clearFaces } from '../store/reducers/faces';
 import { clearSearch } from '../store/reducers/search';
 import { clearMedia } from '../store/reducers/media';
+import { changeConnection } from '../store/reducers/cloudConnection';
 
 const CloudConnectComponent = () => {
   const [open, setOpen] = useState(false);
   const [inputOpen, setInputOpen] = useState(false);
-  const [connected, setConnected] = useState(false);
+  // const [connected, setConnected] = useState(false);
   const dispatch = useDispatch();
+  const connected = useSelector((state) => state.connection.connected);
 
   useEffect(() => {
     async function fetchCloudUrl() {
       const connectedStatus = await isConnectedToCloud();
-      setConnected(connectedStatus);
+      dispatch(changeConnection(connectedStatus));
+      // setConnected(connectedStatus);
     }
     fetchCloudUrl();
   }, []);
 
-  const clearStore = () => {
-    console.log("cleaning store...")
-    dispatch(clearToast());
-    dispatch(clearFaces());
-    dispatch(clearSearch());
-    dispatch(clearMedia());
-  }
-
-
   const handleConfirmDisconnect = () => {
     console.log('Disconnecting');
     disconnectFromCloud().then(() => {
-      setConnected(false);
+      // setConnected(false);
       window.electronAPI.reloadApp();
-      // TODO: Refresh the page to reflect the disconnection
+      dispatch(changeConnection(false));
+      // TODO: Refresh the page to reflect the disconnection -- DONE
     });
   }
 
   const handleConfirmConnect = (url) => {
     console.log('Connecting');
     connectToCloud(url).then(() => {
-      setConnected(true);
-      window.electronAPI.reloadApp();
-      // TODO: Refresh the page to reflect the connection
+      // setConnected(true);
+      window.electronAPI.reloadApp().then(() => {
+        dispatch(changeConnection(true));
+      });
+      // TODO: Refresh the page to reflect the connection -- DONE
     });
   }
 

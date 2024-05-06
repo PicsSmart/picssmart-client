@@ -8,6 +8,7 @@ import menu from './menu'
 import faces from './faces';
 import search from './search';
 import toast from './toast';
+import connection from './cloudConnection';
 
 // ==============================|| COMBINE REDUCERS ||============================== //
 
@@ -18,6 +19,7 @@ const reducers = combineReducers({
     faces, 
     search,
     toast,
+    connection
 });
 
 export default reducers;
