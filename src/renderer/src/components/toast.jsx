@@ -23,7 +23,7 @@ const Toast = () => {
                     onClose={handleClose}
                     sx={{position: 'absolute'}} 
                 >
-                    <Alert onClose={handleClose} severity={toast.severity} variant='filled'>
+                    <Alert onClose={handleClose} severity={toast.severity} variant='filled' sx={{color: "#ffffff"}}>
                         {toast.message} 
                     </Alert>
                 </Snackbar>

@@ -4,11 +4,17 @@ import { useMediaQuery } from '@mui/material';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { connectToCloud, disconnectFromCloud, isConnectedToCloud } from '../services/apiService/cloud';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearToast } from '../store/reducers/toast';
+import { clearFaces } from '../store/reducers/faces';
+import { clearSearch } from '../store/reducers/search';
+import { clearMedia } from '../store/reducers/media';
 
 const CloudConnectComponent = () => {
   const [open, setOpen] = useState(false);
   const [inputOpen, setInputOpen] = useState(false);
   const [connected, setConnected] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function fetchCloudUrl() {
@@ -18,10 +24,20 @@ const CloudConnectComponent = () => {
     fetchCloudUrl();
   }, []);
 
+  const clearStore = () => {
+    console.log("cleaning store...")
+    dispatch(clearToast());
+    dispatch(clearFaces());
+    dispatch(clearSearch());
+    dispatch(clearMedia());
+  }
+
+
   const handleConfirmDisconnect = () => {
     console.log('Disconnecting');
     disconnectFromCloud().then(() => {
       setConnected(false);
+      window.electronAPI.reloadApp();
       // TODO: Refresh the page to reflect the disconnection
     });
   }
@@ -30,6 +46,7 @@ const CloudConnectComponent = () => {
     console.log('Connecting');
     connectToCloud(url).then(() => {
       setConnected(true);
+      window.electronAPI.reloadApp();
       // TODO: Refresh the page to reflect the connection
     });
   }

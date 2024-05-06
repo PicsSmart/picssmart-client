@@ -136,7 +136,7 @@ app.whenReady().then( async () => {
     store.set('cloudUrl', url)
   })
 
-    ipcMain.handle('dialog:zipFolder', async (_, sourceFolder) => {
+  ipcMain.handle('dialog:zipFolder', async (_, sourceFolder) => {
     console.log('Zipping folder:', sourceFolder)
     const zipFilePath = 'output.zip';
     const folderName = basename(sourceFolder);
@@ -152,6 +152,10 @@ app.whenReady().then( async () => {
       return data;
     }
 
+  });
+
+  ipcMain.handle('reloadApp', () => {
+    mainWindow.webContents.reloadIgnoringCache();
   });
 
   createWindow()

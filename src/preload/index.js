@@ -10,7 +10,8 @@ const electronCustomAPIs = {
   sendZipFolder: (sourceFolder) => ipcRenderer.invoke('dialog:zipFolder', sourceFolder),
   onKafkaConsume: (callback) => ipcRenderer.on('add-album', (_event, value) => callback(value)),
   getCloudUrl: () => ipcRenderer.invoke('getCloudUrl'),
-  setCloudUrl: (url) => ipcRenderer.invoke('setCloudUrl', url)
+  setCloudUrl: (url) => ipcRenderer.invoke('setCloudUrl', url),
+  reloadApp: () => ipcRenderer.invoke('reloadApp'),
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to
