@@ -196,7 +196,7 @@ const PhotoView = () => {
           />
         </Grid>
         <Grid item md={6}>
-            <TableContainer>
+            {/* <TableContainer>
                 <Table>
                     <TableBody>
                         <TableRow key={`${photoDetails?.name}-device`}>
@@ -233,7 +233,7 @@ const PhotoView = () => {
                         </TableRow>
                     </TableBody>
                 </Table>
-            </TableContainer>
+            </TableContainer> */}
         </Grid>
       </Grid>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
