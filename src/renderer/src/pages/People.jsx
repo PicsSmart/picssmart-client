@@ -1,5 +1,3 @@
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
 import PeopleCard from '../components/PeopleCard';
 import { getFacesApi } from '../services/apiService/people';
 import { useEffect, useState } from 'react';
@@ -7,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setFaces } from '../store/reducers/faces';
 import { setToast } from '../store/reducers/toast';
 import PeopleGallery from '../components/PeopleGallery';
+import { Box, Typography, Grid } from '@mui/material';
 
 import { useNavigate } from 'react-router-dom';
 import { SUCCESS_MESSAGES, ERROR_MESSAGES } from '../utils/constants';
@@ -50,7 +49,12 @@ const People = () => {
 
   return (
     <div>
+      {faces?.length!=0?
       <PeopleGallery faces={faces} />
+      :
+      <Box sx={{textAlign: 'center' , m:'7rem', mt: '20rem'}}>
+          <Typography variant="h5">No profiles to display.</Typography>
+      </Box>}
     </div>
   );
 };

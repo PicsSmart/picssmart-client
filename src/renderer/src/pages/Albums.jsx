@@ -1,20 +1,21 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { Folder } from '@mui/icons-material';
+import { Typography, Box } from '@mui/material';
 
 import { setAlbums } from '../store/reducers/albums';
 import { setToast } from '../store/reducers/toast';
 
 import { getAlbumsApi } from '../services/apiService/albums';
 
-import ItemsTable from '../components/ItemsTable';
+import AlbumGallery from '../components/AlbumGallery';
 
 import { SUCCESS_MESSAGES, ERROR_MESSAGES } from '../utils/constants';
 
 const Albums = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
 
   const dispatch = useDispatch();
   const albums = useSelector((state) => state.albums.albums);
@@ -51,24 +52,15 @@ const Albums = () => {
     navigate(`/albums/${id}`);
   };
 
-  const deleteHandler = (id) => {
-    console.log(`delete album ${id}`);
-  };
-
-  const icon = (
-    <Folder
-      style={{
-        color: 'picsmart.main',
-        fontSize: '1.25rem'
-      }}
-    />
-  );
-
   return (
-    <div>
-      <h1>Albums</h1>
-      <ItemsTable data={albums} icon={icon} deleteHandler={deleteHandler} navigateHandler={navigateHandler} />
+    <div>{albums?.length!=0?
+      <AlbumGallery albums={albums} navigateHandler={navigateHandler} />
+      :
+      <Box sx={{textAlign: 'center' , m:'7rem', mt: '20rem'}}>
+          <Typography variant="h5">No albums to display.</Typography>
+      </Box>}
     </div>
+    
   );
 };
 
