@@ -1,5 +1,5 @@
 {
-  "name": "picssmart-client",
+  "name": "picssmart",
   "version": "0.1.0",
   "description": "Official client for Picssmart Personal Cloud Solution",
   "main": "./out/main/index.js",
