@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Box, Toolbar, useMediaQuery } from '@mui/material';
+import { Box, Toolbar, useMediaQuery, Typography } from '@mui/material';
 
 // project import
 import Drawer from './Drawer';
@@ -15,6 +15,9 @@ import Breadcrumbs from '../../components/@extended/Breadcrumbs';
 // types
 import { openDrawer } from '../../store/reducers/menu';
 
+import ConnectToCloud from '../../pages/ConnectToCloud';
+import Toast from '../../components/toast';
+
 // ==============================|| MAIN LAYOUT ||============================== //
 
 const MainLayout = () => {
@@ -23,6 +26,7 @@ const MainLayout = () => {
   const dispatch = useDispatch();
 
   const { drawerOpen } = useSelector((state) => state.menu);
+  const connected = useSelector((state) => state.connection.connected);
 
   // drawer toggler
   const [open, setOpen] = useState(drawerOpen);
@@ -49,9 +53,19 @@ const MainLayout = () => {
       <Header open={open} handleDrawerToggle={handleDrawerToggle} />
       <Drawer open={open} handleDrawerToggle={handleDrawerToggle} />
       <Box component="main" sx={{ width: '100%', flexGrow: 1, p: { xs: 2, sm: 3 } }}>
-        <Toolbar />
-        <Breadcrumbs navigation={navigation} title />
-        <Outlet />
+        {connected?
+        <>
+          <Toolbar />
+          <Breadcrumbs navigation={navigation} title />
+          <Outlet />
+        </>
+        :
+        <>
+        <Box sx={{mt:'2rem'}}>
+          <Toast />
+        </Box>
+        <ConnectToCloud />
+        </>}
       </Box>
     </Box>
   );

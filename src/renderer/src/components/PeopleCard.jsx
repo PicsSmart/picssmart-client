@@ -6,16 +6,25 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import { PropTypes } from 'prop-types';
-import { getThumbnailApi } from '../services/apiService/people';
+import { getThumbnailUrlApi } from '../services/apiService/people';
 import {useDispatch} from 'react-redux';
 import {setFaces} from '../store/reducers/faces';
 
 const PeopleCard = ({ data }) => {
+  const [thumbnailUrl, setThumbnailUrl] = useState('');
+
+  useEffect(() => {
+    async function fetchData() {
+      const url = await getThumbnailUrlApi(data.imageId);
+      setThumbnailUrl(url);
+    }
+    fetchData();
+  }, []);
 
   return (
     <Card sx={{ width: 250 }}>
       <CardActionArea>
-        <CardMedia sx={{ borderRadius: '50px', padding: '10px' }} component="img" image={`http://127.0.0.1:8000/thumbnail/${data.imageId}?top=${data.face.top}&right=${data.face.right}&bottom=${data.face.bottom}&left=${data.face.left}`} alt={data._id} height='250'/>
+        <CardMedia sx={{ borderRadius: '50px', padding: '10px' }} component="img" image={`${thumbnailUrl}?top=${data.face.top}&right=${data.face.right}&bottom=${data.face.bottom}&left=${data.face.left}`} alt={data._id} height='250'/>
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             Name - {data._id}
@@ -30,15 +39,6 @@ const PeopleCard = ({ data }) => {
       </CardActionArea>
     </Card>
   );
-};
-
-PeopleCard.propTypes = {
-  data: PropTypes.shape({
-    face: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    photoCount: PropTypes.number.isRequired,
-    favouriteCount: PropTypes.number.isRequired
-  }).isRequired
 };
 
 export default PeopleCard;

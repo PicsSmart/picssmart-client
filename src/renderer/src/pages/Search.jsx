@@ -8,10 +8,6 @@ const Home = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    useEffect(() => {
-        console.log("photos", photos)
-    }, [photos]);
-
     return(
         <div>
             <SearchBar setPhotos={setPhotos} setError={setError} setLoading={setLoading}/>

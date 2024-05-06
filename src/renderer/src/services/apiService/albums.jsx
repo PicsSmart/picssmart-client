@@ -1,11 +1,9 @@
 import axiosProvider from ".";
 
-const getAlbumsUrl = 'http://127.0.0.1:8000/albums'
-const getAlbumMediaUrl = 'http://127.0.0.1:8000/albums/:id/media'
-
 export const getAlbumsApi = async ()=>{
     try {
-        const response = await axiosProvider.get(getAlbumsUrl);
+        const cloudUrl = await window.electronAPI.getCloudUrl() 
+        const response = await axiosProvider.get(`${cloudUrl}/albums`);
         return Promise.resolve(response);
     }catch(exception){
         return Promise.reject(exception);
@@ -14,7 +12,8 @@ export const getAlbumsApi = async ()=>{
 
 export const getAlbumMediaApi = async (id)=>{
     try{
-        const response = await axiosProvider.get(getAlbumMediaUrl.replace(':id', id));
+        const cloudUrl = await window.electronAPI.getCloudUrl()
+        const response = await axiosProvider.get(`${cloudUrl}/albums/${id}/media`);
         return Promise.resolve(response);
     }catch(execption){
         return Promise.reject(exception)

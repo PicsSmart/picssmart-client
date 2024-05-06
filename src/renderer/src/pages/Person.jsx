@@ -3,8 +3,11 @@ import { Box, CardMedia, Button } from '@mui/material/index';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { getFaceGroupImagesApi, getFacesApi } from '../services/apiService/people';
+import { getFaceGroupImagesApi, getFacesApi, getThumbnailUrlApi } from '../services/apiService/people';
 import ImageGallery from '../components/ImageGallery';
+import { setToast } from '../store/reducers/toast';
+import { useDispatch } from 'react-redux';
+import { SUCCESS_MESSAGES, ERROR_MESSAGES } from '../utils/constants';
 
 const Person = () => {
   const { id } = useParams();
@@ -15,7 +18,8 @@ const Person = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [photos, setPhotos] = useState([]); 
-
+  const dispatch = useDispatch();
+  const [thumbnailUrl, setThumbnailUrl] = useState('');
 
 
   const getFacePhotos = async () => {
@@ -28,15 +32,31 @@ const Person = () => {
           setPhotos((prev)=>[...prev, img]);
         }
       });
+      dispatch(
+        setToast({
+          toast: { open: true, message: SUCCESS_MESSAGES.PROFILE, severity: 'success' }
+        })
+      );
     } catch (exception) {
       setError(exception);
+      dispatch(
+        setToast({
+          toast: { open: true, message: ERROR_MESSAGES.PROFILE, severity: 'error' }
+        })
+      );
     } finally{
       setLoading(false);
     }
   }
 
   useEffect(() => { 
-    setPerson(faces.filter((face) => face._id === id)[0]);
+    const person = faces.filter((face) => face._id === id)[0];
+    setPerson(person);
+    async function fetchData() {
+      const url = await getThumbnailUrlApi(person.imageId);
+      setThumbnailUrl(url);
+    }
+    fetchData();
     getFacePhotos();
   } , [window.location.pathname]);
 
@@ -55,17 +75,17 @@ const Person = () => {
         {person&&<CardMedia
           sx={{ borderRadius: '50px', padding: '10px', width: '150px', height: '150px' }}
           component="img"
-          image={`http://127.0.0.1:8000/thumbnail/${person?.imageId}?top=${person?.face.top}&right=${person?.face.right}&bottom=${person?.face.bottom}&left=${person?.face.left}`}
+          image={`${thumbnailUrl}?top=${person?.face.top}&right=${person?.face.right}&bottom=${person?.face.bottom}&left=${person?.face.left}`}
           alt={person?._id}
         />}
-        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', marginRight: '50px' }}>
-          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+        <Box>
+          <Box sx={{ display: 'flex', flexDirection:'column', justifyContent: 'center' }}>
+            <h2>Profile ID : </h2>
             <h2>{person?._id}</h2>
-            <span style={{ display: 'flex', alignItems: 'center', marginRight: '10px' }}>{icon}</span>
           </Box>
-          <Button variant="contained" color="error">
+          {/* <Button variant="contained" color="error">
             Delete Profile
-          </Button>
+          </Button> */}
         </Box>
       </Box>
       <Box>

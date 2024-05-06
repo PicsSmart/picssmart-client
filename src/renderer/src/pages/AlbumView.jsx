@@ -7,11 +7,15 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { getAlbumMediaApi } from '../services/apiService/albums';
+import { useDispatch } from 'react-redux';
+import { setToast } from '../store/reducers/toast';
+import { SUCCESS_MESSAGES, ERROR_MESSAGES } from '../utils/constants';
 
 const AlbumView = () => {
   const [images, setImages] = useState()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState()
+  const dispatch = useDispatch();
 
   const { id } = useParams();
   const albums = useSelector((state) => state.albums.albums);
@@ -22,8 +26,18 @@ const AlbumView = () => {
       setLoading(true)
       const {data} = await getAlbumMediaApi(id)
       setImages(data)
+      dispatch(
+        setToast({
+          toast:{ open:true, message: SUCCESS_MESSAGES.ALBUM_MEDIA, severity:'success' }
+        })
+      );
     }catch(exception){
       setError(exception)
+      dispatch(
+        setToast({
+          toast:{ open:true, message:ERROR_MESSAGES.ALBUM_MEDIA, severity:'error' }
+        })
+      );
     }
   }
 

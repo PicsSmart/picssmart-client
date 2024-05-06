@@ -1,25 +1,37 @@
 // material-ui
-import { Box, FormControl, InputAdornment, OutlinedInput, Button, IconButton } from '@mui/material';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { Box, FormControl, InputAdornment, OutlinedInput, Button } from '@mui/material';
 
 // assets
 import SearchIcon from '@mui/icons-material/Search';
 import { textSearchApi } from '../services/apiService/utilities';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setToast } from '../store/reducers/toast';
+import { SUCCESS_MESSAGES, ERROR_MESSAGES } from '../utils/constants';
 // ==============================|| HEADER CONTENT - SEARCH ||============================== //
 
 const SearchBar = ({setPhotos, setError, setLoading}) => {
 
+    const dispatch = useDispatch();
     const textSearch = async ()=>{
         try{
             setLoading(true)
             const {data} =  await textSearchApi(caption)
-            console.log(data)
             data.results.forEach(element => {
                 setPhotos((prev)=>[...prev, element.payload]);
             });
+            dispatch(
+                setToast({
+                    toast: { open: true, message: SUCCESS_MESSAGES.SEARCH_RESULTS, severity: 'success' }
+                })
+            );
         }catch(exception){
             setError(exception)
+            dispatch(
+                setToast({
+                    toast: { open: true, message: ERROR_MESSAGES.SEARCH_RESULTS, severity: 'error' }
+                })
+            );
         }finally{
             setLoading(false)
         }
@@ -31,6 +43,14 @@ const SearchBar = ({setPhotos, setError, setLoading}) => {
 
     const handleClick = () => {
         setPhotos([])
+        if(caption === ''){
+            dispatch(
+                setToast({
+                    toast: { open: true, message: ERROR_MESSAGES.ENTER_TEXT_TO_SEARCH, severity: 'warning' }
+                })
+            );
+            return
+        }
         textSearch()
     }
 

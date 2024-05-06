@@ -4,23 +4,23 @@ import { PropTypes } from 'prop-types';
 
 const ItemsTable = ({ data, icon, deleteHandler, navigateHandler }) => {
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} sx={{ maxWidth: 650 }}>
       {data && data.length != 0 ? (
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Table  aria-label="simple table">
           <TableBody>
             {data.map((row) => (
               <TableRow key={row._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCell>
                   <span style={{ display: 'flex', alignItems: 'center', marginRight: '10px' }}>
-                    <Button variant="text" onClick={() => navigateHandler(row._id)} style={{ color: 'black' }}>
+                    <Button variant="text" onClick={() => navigateHandler(row._id)} style={{ color: 'black'}}>
                       {icon}
                       {row.name}
                     </Button>
                   </span>
                 </TableCell>
                 <TableCell align="left">{row.count} photos</TableCell>
-                <TableCell align="left">{row.favouriteCount?row.favouriteCount:0} favourites</TableCell>
-                <TableCell align="center">
+                {/* <TableCell align="left">{row.favouriteCount?row.favouriteCount:0} favourites</TableCell> */}
+                {/* <TableCell align="center">
                   <IconButton aria-label="delete" onClick={() => deleteHandler(row._id)}>
                     <DeleteIcon
                       style={{
@@ -29,7 +29,7 @@ const ItemsTable = ({ data, icon, deleteHandler, navigateHandler }) => {
                       }}
                     />
                   </IconButton>
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             ))}
           </TableBody>
@@ -39,20 +39,6 @@ const ItemsTable = ({ data, icon, deleteHandler, navigateHandler }) => {
       )}
     </TableContainer>
   );
-};
-
-ItemsTable.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-      count: PropTypes.number.isRequired,
-      favouriteCount: PropTypes.number.isRequired
-    })
-  ).isRequired,
-  icon: PropTypes.element.isRequired,
-  deleteHandler: PropTypes.func.isRequired,
-  navigateHandler: PropTypes.func.isRequired
 };
 
 export default ItemsTable;

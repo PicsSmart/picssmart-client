@@ -7,6 +7,9 @@ import albums from './albums';
 import menu from './menu'
 import faces from './faces';
 import search from './search';
+import toast from './toast';
+import connection from './cloudConnection';
+import mountingStatus from './mountingStatus';
 
 // ==============================|| COMBINE REDUCERS ||============================== //
 
@@ -15,7 +18,10 @@ const reducers = combineReducers({
     albums,
     menu,
     faces, 
-    search
+    search,
+    toast,
+    connection,
+    mountingStatus
 });
 
 export default reducers;

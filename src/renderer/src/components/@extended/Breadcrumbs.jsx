@@ -5,6 +5,7 @@ import { Link, useLocation } from 'react-router-dom';
 // material-ui
 import MuiBreadcrumbs from '@mui/material/Breadcrumbs';
 import { Grid, Typography } from '@mui/material';
+import Toast from '../toast';
 
 // project imports
 
@@ -67,8 +68,8 @@ const Breadcrumbs = ({ navigation }) => {
     // main
     if (item.breadcrumbs !== false) {
       breadcrumbContent = (
-        <Grid container direction="column" justifyContent="flex-start" alignItems="flex-start" mb={2}>
-          <Grid item>
+        <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start" mb={2}>
+          <Grid item xs={6}>
             <MuiBreadcrumbs aria-label="breadcrumb">
               <Typography component={Link} to="/" color="textSecondary" variant="h6" sx={{ textDecoration: 'none' }}>
                 PicSmart
@@ -76,6 +77,9 @@ const Breadcrumbs = ({ navigation }) => {
               {mainContent}
               {itemContent}
             </MuiBreadcrumbs>
+          </Grid>
+          <Grid item xs={6}>
+            <Toast />
           </Grid>
         </Grid>
       );
