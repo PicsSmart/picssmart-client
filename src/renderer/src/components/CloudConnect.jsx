@@ -52,7 +52,7 @@ const CloudConnectComponent = () => {
         console.log('Connection failed');
         dispatch(
           setToast({
-            toast: { open: true, message: ERROR_MESSAGES.CLOUD_CONNECT_FAILED, severity: 'warning' },
+            toast: { open: true, message: ERROR_MESSAGES.CLOUD_CONNECT_FAILED, severity: 'error' },
           })
         );
       }
@@ -60,7 +60,7 @@ const CloudConnectComponent = () => {
       console.log('Connection failed');
       dispatch(
         setToast({
-          toast: { open: true, message: ERROR_MESSAGES.CLOUD_CONNECT_FAILED, severity: 'warning' },
+          toast: { open: true, message: ERROR_MESSAGES.CLOUD_CONNECT_FAILED, severity: 'error' },
         })
       );
     });

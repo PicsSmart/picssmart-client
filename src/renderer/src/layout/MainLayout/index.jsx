@@ -16,6 +16,8 @@ import Breadcrumbs from '../../components/@extended/Breadcrumbs';
 import { openDrawer } from '../../store/reducers/menu';
 
 import ConnectToCloud from '../../pages/ConnectToCloud';
+import Toast from '../../components/toast';
+
 // ==============================|| MAIN LAYOUT ||============================== //
 
 const MainLayout = () => {
@@ -57,7 +59,13 @@ const MainLayout = () => {
           <Breadcrumbs navigation={navigation} title />
           <Outlet />
         </>
-        :<ConnectToCloud />}
+        :
+        <>
+        <Box sx={{mt:'2rem'}}>
+          <Toast />
+        </Box>
+        <ConnectToCloud />
+        </>}
       </Box>
     </Box>
   );
