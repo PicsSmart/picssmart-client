@@ -1,3 +1,5 @@
+import axios from "axios"
+
 export const isConnectedToCloud = async () => {
   const cloudUrl = await window.electronAPI.getCloudUrl()
   console.log('cloudUrl', cloudUrl)
@@ -10,7 +12,14 @@ export const getCloudUrl = async () => {
 }
 
 export const connectToCloud = async (url) => {
-  await window.electronAPI.setCloudUrl(url)
+  const response = await axios.get(`${url}/health`)
+  if (response.status === 200 && response.data.status === 'up') {
+    await window.electronAPI.setCloudUrl(url)
+    return true
+  }
+  else {
+    return false
+  }
 }
 
 export const disconnectFromCloud = async () => {

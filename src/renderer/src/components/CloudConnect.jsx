@@ -5,11 +5,12 @@ import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, T
 import { useEffect, useState } from 'react';
 import { connectToCloud, disconnectFromCloud, isConnectedToCloud } from '../services/apiService/cloud';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearToast } from '../store/reducers/toast';
+import { clearToast, setToast } from '../store/reducers/toast';
 import { clearFaces } from '../store/reducers/faces';
 import { clearSearch } from '../store/reducers/search';
 import { clearMedia } from '../store/reducers/media';
 import { changeConnection } from '../store/reducers/cloudConnection';
+import { ERROR_MESSAGES } from '../utils/constants';
 
 const CloudConnectComponent = () => {
   const [open, setOpen] = useState(false);
@@ -39,12 +40,29 @@ const CloudConnectComponent = () => {
 
   const handleConfirmConnect = (url) => {
     console.log('Connecting');
-    connectToCloud(url).then(() => {
+    // strip the url of any trailing and leading whitespaces
+    url = url.trim();
+    connectToCloud(url).then((response) => {
       // setConnected(true);
-      window.electronAPI.reloadApp().then(() => {
-        dispatch(changeConnection(true));
-      });
-      // TODO: Refresh the page to reflect the connection -- DONE
+      if (response) {
+        window.electronAPI.reloadApp().then(() => {
+          dispatch(changeConnection(true));
+        });
+      } else {
+        console.log('Connection failed');
+        dispatch(
+          setToast({
+            toast: { open: true, message: ERROR_MESSAGES.CLOUD_CONNECT_FAILED, severity: 'warning' },
+          })
+        );
+      }
+    }).catch((error) => {
+      console.log('Connection failed');
+      dispatch(
+        setToast({
+          toast: { open: true, message: ERROR_MESSAGES.CLOUD_CONNECT_FAILED, severity: 'warning' },
+        })
+      );
     });
   }
 
