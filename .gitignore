@@ -28,3 +28,7 @@ out
 .env
 .env.production
 .env.local
+
+# Ignore test result directory
+allure-results
+
