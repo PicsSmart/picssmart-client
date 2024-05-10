@@ -1,5 +1,5 @@
 import { CloudOff, CloudQueue } from '@mui/icons-material';
-import { Button, IconButton} from '@mui/material';
+import { Button, CircularProgress, IconButton} from '@mui/material';
 import { useMediaQuery } from '@mui/material';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
@@ -154,6 +154,7 @@ const ConfirmDisconnectModal = ({handleClose}) => {
 }
 
 const CloudConnectInputModal = ({handleClose}) => {
+  const [inputText, setInputText] = useState('');
   
   return (
    <Dialog
@@ -180,7 +181,9 @@ const CloudConnectInputModal = ({handleClose}) => {
           <br />
           <br />
           Example: http://127.0.0.1:8000
+
           </DialogContentText>
+          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
           <TextField
             autoFocus
             required
@@ -189,10 +192,16 @@ const CloudConnectInputModal = ({handleClose}) => {
             name="url"
             label="Personal Cloud URL"
             type="url"
-            fullWidth
             variant="standard"
+            style={{ width: '70%' }}
             color='picsmart'
-          />
+            value={inputText}
+            onChange={(e) => setInputText(e.target.value)}
+            />
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <ScanCloud setInputText={setInputText} />
+            </div>
+            </div>
         </DialogContent>
         <DialogActions>
           <Button onClick={()=> handleClose('')} color="picsmart" variant='outlined'>
@@ -206,5 +215,43 @@ const CloudConnectInputModal = ({handleClose}) => {
   )
 }
 
+const ScanCloud = ({ setInputText }) => {
+  const [scanning, setScanning] = useState(false);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    window.electronAPI.onServerDiscovered((serverInfo) => {
+      setScanning(false);
+      if (serverInfo) {
+        setInputText(serverInfo);
+      } else {
+        console.log('No server found');
+        dispatch(
+          setToast({
+            toast: { open: true, message: ERROR_MESSAGES.NO_SERVERS_FOUND, severity: 'error' },
+          })
+        );   
+      }
+    });
+  }, []);
+
+  const handleClick = () => {
+    setScanning(true);
+    window.electronAPI.scanServer();
+  }
+
+  return (
+    <Button variant="contained" color="picsmart" onClick={handleClick} style={{ height: '100%' } }>
+      {!scanning && 'Scan for Available Servers'}
+
+      {scanning && (
+        <>
+          <CircularProgress size={24} style={{ marginLeft: '10px', marginRight: '10px' }} color="secondary" />
+          Scanning...
+        </>
+      )}
+    </Button>
+  )
+}
 
 export default CloudConnectComponent;

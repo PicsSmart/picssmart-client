@@ -14,6 +14,8 @@ import { kafkaConsume } from './kafka'
 const Store = require('electron-store')
 const store = new Store()
 
+const dgram = require('dgram');
+
 
 async function handleFolderSelect() {
   const { canceled, filePaths } = await dialog.showOpenDialog({
@@ -156,6 +158,41 @@ app.whenReady().then( async () => {
 
   ipcMain.handle('reloadApp', () => {
     mainWindow.webContents.reloadIgnoringCache();
+  });
+
+  ipcMain.handle('scanServer', async () => {
+    const socket = dgram.createSocket('udp4');
+    const BROADCAST_ADDR = '255.255.255.255';
+    const BROADCAST_PORT = 5005;
+    let serverFound = false;
+
+    const message = Buffer.from('scan PicsSmart server');
+    socket.bind(0, () => {
+      socket.setBroadcast(true);
+      socket.send(message, BROADCAST_PORT, BROADCAST_ADDR, (err) => {
+        if (err) {
+          console.error('Error sending message:', err);
+        }
+      });
+
+      socket.on('message', (msg, rinfo) => {
+        if (msg.toString() == message.toString()) {
+          mainWindow.webContents.send('serverDiscovered', null);
+        }
+        // extract the port number
+        const port = parseInt(msg.toString().split(' ')[2]);
+        serverFound = true;
+        mainWindow.webContents.send('serverDiscovered', `http://${rinfo.address}:${port}`);
+      });
+
+      // remove the listener after 5 seconds
+      setTimeout(() => {
+        socket.close();
+        if (!serverFound) {
+          mainWindow.webContents.send('serverDiscovered', null);
+        }
+      }, 5000);
+    });
   });
 
   createWindow()

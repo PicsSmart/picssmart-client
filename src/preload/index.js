@@ -12,6 +12,8 @@ const electronCustomAPIs = {
   getCloudUrl: () => ipcRenderer.invoke('getCloudUrl'),
   setCloudUrl: (url) => ipcRenderer.invoke('setCloudUrl', url),
   reloadApp: () => ipcRenderer.invoke('reloadApp'),
+  scanServer: () => ipcRenderer.invoke('scanServer'),
+  onServerDiscovered: (callback) => ipcRenderer.on('serverDiscovered', (_event, value) => callback(value)),
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to
