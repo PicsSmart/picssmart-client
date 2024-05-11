@@ -31,5 +31,6 @@ export const ERROR_MESSAGES = {
     FOLDER_MOUNT_START: 'Error while mounting folder',
     SELECT_FOLDER: 'Please select a folder',
     FOLDER_MOUNT_FINISH: 'Error while adding the new album',
-    CLOUD_CONNECT_FAILED: 'Failed to connect to the url'
+    CLOUD_CONNECT_FAILED: 'Failed to connect to the url',
+    NO_SERVERS_FOUND: 'No Available Servers Found in the Network',
 }
