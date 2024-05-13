@@ -11,6 +11,9 @@ import { clearSearch } from '../store/reducers/search';
 import { clearMedia } from '../store/reducers/media';
 import { changeConnection } from '../store/reducers/cloudConnection';
 import { ERROR_MESSAGES } from '../utils/constants';
+import { setMedia } from '../store/reducers/media';
+import { getMediaApi } from '../services/apiService/media';
+import { changeMountingStatus } from '../store/reducers/mountingStatus';
 
 const CloudConnectComponent = () => {
   const [open, setOpen] = useState(false);
@@ -28,10 +31,48 @@ const CloudConnectComponent = () => {
     fetchCloudUrl();
   }, []);
 
+  const getMedia = async () => {
+    try {
+      const { data } = await getMediaApi();
+      dispatch(
+        setMedia({
+          media: data
+        })
+      );
+    } catch (exception) {
+      dispatch(
+        setToast({
+          toast: { open: true, message: ERROR_MESSAGES.MEDIA, severity: 'error' }
+        })
+      );
+    }
+  };
+  
+  const startKafkaConsumer = () => {
+    console.log('kafka consumer starting...')
+    window.electronAPI.onKafkaConsume((album)=>{
+      const message = `New album : ${album.toUpperCase()}, added!`;
+      dispatch(
+        setToast({
+          toast: { open: true, message: message, severity: 'success' },
+        })
+      );
+      dispatch(changeMountingStatus(false));
+      // console.log(message);
+      getMedia();
+    });
+  }
+
+  const disconnectKafkaConsumer = () => {
+    console.log('kafka consumer stopping...');
+    window.electronAPI.stopKafkaConsume();
+  }
+
   const handleConfirmDisconnect = () => {
     console.log('Disconnecting');
     disconnectFromCloud().then(() => {
       // setConnected(false);
+      // disconnectKafkaConsumer();
       window.electronAPI.reloadApp();
       dispatch(changeConnection(false));
       // TODO: Refresh the page to reflect the disconnection -- DONE
@@ -45,6 +86,8 @@ const CloudConnectComponent = () => {
     connectToCloud(url).then((response) => {
       // setConnected(true);
       if (response) {
+        window.electronAPI.startKafkaConsume(url);
+        // NOTE: did not get the notification from the backend
         window.electronAPI.reloadApp().then(() => {
           dispatch(changeConnection(true));
         });
