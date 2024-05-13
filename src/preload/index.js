@@ -14,6 +14,8 @@ const electronCustomAPIs = {
   reloadApp: () => ipcRenderer.invoke('reloadApp'),
   scanServer: () => ipcRenderer.invoke('scanServer'),
   onServerDiscovered: (callback) => ipcRenderer.on('serverDiscovered', (_event, value) => callback(value)),
+  stopKafkaConsume: () => ipcRenderer.invoke('stopKafkaConsume'),
+  startKafkaConsume: (serverIp) => ipcRenderer.invoke('startKafkaConsume', serverIp)
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

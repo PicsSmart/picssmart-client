@@ -8,7 +8,7 @@ const fs = require('fs')
 const archiver = require('archiver')
 const FormData = require('form-data')
 
-import { kafkaConsume } from './kafka'
+import { startKafkaConsume, stopKafkaConsume } from './kafka'
 
 // Electron-store for persistent user data
 const Store = require('electron-store')
@@ -160,6 +160,14 @@ app.whenReady().then( async () => {
     mainWindow.webContents.reloadIgnoringCache();
   });
 
+  ipcMain.handle('stopKafkaConsume', async () => {
+    await stopKafkaConsume();
+  });
+
+  ipcMain.handle('startKafkaConsume', async (_, serverIp) => {
+    await startKafkaConsume(mainWindow, serverIp);
+  });
+
   ipcMain.handle('scanServer', async () => {
     const socket = dgram.createSocket('udp4');
     const BROADCAST_ADDR = '255.255.255.255';
@@ -204,7 +212,7 @@ app.whenReady().then( async () => {
   })
 
   // Start Kafka consumer
-  await kafkaConsume(mainWindow);
+  // await startKafkaConsume(mainWindow);
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
